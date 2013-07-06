@@ -3,3 +3,10 @@
 
 /relc/bin
 /relwiki/bin
+
+/relc/.idea
+/relwiki/.idea
+
+*.iml
+
+/.idea
