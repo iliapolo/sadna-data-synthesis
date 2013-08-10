@@ -32,8 +32,7 @@ ul#sliding-navigation-pages li.sliding-element a
     display: block;
     width: 150px;
     padding: 5px 15px;
-    margin: 0;
-    margin-bottom: 5px;
+    margin: 0 0 5px;
 }
 
 ul#sliding-navigation-keywords li.sliding-element h3,
