@@ -1,13 +1,10 @@
 package org.sadnatau.relwiki.data;
 
-import org.apache.commons.lang.StringUtils;
 import org.sadnatau.relwiki.model.QueryTemplate;
 import org.sadnatau.relwiki.model.SearchResultData;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Mock for retrieving data.
@@ -28,49 +25,18 @@ public class MockRelationalDataProvider implements RelationalDataProvider {
             "Where are the proportions?", "Could this be right?"};
 
     @Override
-    public String getPageDate(String pageName, String author) {
-        return "This is the page data for page " + pageName + " by " + author;
+    public String getPageContent(final String pageName) {
+        return "This is the page data for page " + pageName;
     }
 
     @Override
     public SearchResultData get(final QueryTemplate template) {
 
         SearchResultData result = new SearchResultData();
-
-        String author = template.getAuthor();
-        if (StringUtils.isBlank(author)) {
-            // No author filter was applied. display all authors
-            result.setAuthors(Arrays.asList(ALL_AUTHORS));
-        } else if (author.equals("Tom Clancy")) {
-
-            List<String> keywords = new ArrayList<>();
-            keywords.add(ALL_KEYWORDS[0]);
-            keywords.add(ALL_KEYWORDS[1]);
-            keywords.add(ALL_KEYWORDS[3]);
-            keywords.add(ALL_KEYWORDS[5]);
-
-            List<String> pages = new ArrayList<>();
-            pages.add(ALL_PAGES[0]);
-            pages.add(ALL_PAGES[1]);
-
-            List<String> authors = new ArrayList<>();
-            authors.add("Tom Clancy");
-
-            result.setAuthors(authors);
-            result.setKeywords(keywords);
-            result.setPages(pages);
-            return result;
-
-        }
-        List<String> keywords = template.getKeywords();
-        if (keywords == null || keywords.isEmpty()) {
-            result.setKeywords(Arrays.asList(ALL_KEYWORDS));
-        } else {
-            // TODO - implement a basic filter
-        }
+        result.setKeywords(Arrays.asList(ALL_KEYWORDS));
         result.setPages(Arrays.asList(ALL_PAGES));
-
-
+        result.setAuthors(Arrays.asList(ALL_AUTHORS));
         return result;
+
     }
 }

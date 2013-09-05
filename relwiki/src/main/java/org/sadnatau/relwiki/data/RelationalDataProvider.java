@@ -11,7 +11,7 @@ import org.sadnatau.relwiki.model.SearchResultData;
  */
 public interface RelationalDataProvider {
 
-    String getPageDate(String pageName, String author);
+    String getPageContent(String pageName);
 
     SearchResultData get(QueryTemplate template);
 

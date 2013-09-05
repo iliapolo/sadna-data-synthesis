@@ -1,5 +1,6 @@
 package org.sadnatau.relwiki.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,27 +14,27 @@ public class QueryTemplate {
     /**
      * List of keywords belonging to the desired page.
      */
-    private List<String> keywords;
+    private List<String> keywords = new ArrayList<>();
 
     /**
      * Currently support just one author.
-     * // TODO - What do multiple authors mean? OR? AND?
+     *
      */
-    private String author;
+    private List<String> authors = new ArrayList<>();
 
     public List<String> getKeywords() {
         return keywords;
     }
 
-    public String getAuthor() {
-        return author;
+    public List<String> getAuthors() {
+        return authors;
     }
 
     public void setKeywords(final List<String> keywords) {
         this.keywords = keywords;
     }
 
-    public void setAuthor(final String author) {
-        this.author = author;
+    public void setAuthors(final List<String> authors) {
+        this.authors = authors;
     }
 }

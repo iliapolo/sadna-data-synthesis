@@ -9,27 +9,32 @@ $(document).ready(function()
 
 
     // populate the active search header
-    document.getElementById("active-search-author").innerText = author;
+    document.getElementById("active-search-authors").innerText = author;
     document.getElementById("active-search-keywords").innerText = keywords
 
 });
 
 function query(anchor, type) {
-    var searchFilter = anchor.innerText;
-    var authorFilter = document.getElementById("active-search-author").innerText;
-    var keywordsFilter = "";
-    if (type == "author") {
-        authorFilter = searchFilter;
-    } else {
-        // keyword
-        var innerText = document.getElementById("active-search-keywords").innerText;
-        if (innerText != null && innerText != "") {
-            keywordsFilter = innerText + "," + anchor.innerText;
+
+    // current values for authros and keywords search filter
+    var authorsSearch = document.getElementById("active-search-authors").innerText;
+    var keywordsSearch = document.getElementById("active-search-keywords").innerText;
+
+    if (type == 'author') {
+        authorsSearch = appendSearch(authorsSearch)
+    } else if (type == 'keyword') {
+        keywordsSearch = appendSearch(keywordsSearch)
+    }
+
+    function appendSearch(currentSearch) {
+        if (currentSearch != null && currentSearch != "") {
+            return currentSearch + "," + anchor.innerText;
         } else {
-            keywordsFilter = anchor.innerText;
+            return anchor.innerText;
         }
     }
-    window.location.href="search?author=" + authorFilter + "&keywords=" + keywordsFilter;
+
+    window.location.href="search?author=" + authorsSearch + "&keywords=" + keywordsSearch;
 
 }
 
