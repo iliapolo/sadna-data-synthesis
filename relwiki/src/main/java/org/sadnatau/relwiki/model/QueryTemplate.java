@@ -12,12 +12,12 @@ import java.util.List;
 public class QueryTemplate {
 
     /**
-     * List of keywords belonging to the desired page.
+     * List of keywords to search by.
      */
     private List<String> keywords = new ArrayList<>();
 
     /**
-     * Currently support just one author.
+     * List of authors to search by.
      *
      */
     private List<String> authors = new ArrayList<>();

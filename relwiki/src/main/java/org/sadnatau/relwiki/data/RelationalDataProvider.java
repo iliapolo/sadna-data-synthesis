@@ -1,5 +1,6 @@
 package org.sadnatau.relwiki.data;
 
+import org.sadnatau.relwiki.model.Page;
 import org.sadnatau.relwiki.model.QueryTemplate;
 import org.sadnatau.relwiki.model.SearchResultData;
 
@@ -11,7 +12,7 @@ import org.sadnatau.relwiki.model.SearchResultData;
  */
 public interface RelationalDataProvider {
 
-    String getPageContent(String pageName);
+    Page getPage(String pageName);
 
     SearchResultData get(QueryTemplate template);
 

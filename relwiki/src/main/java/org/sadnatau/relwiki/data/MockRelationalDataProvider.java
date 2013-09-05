@@ -1,5 +1,6 @@
 package org.sadnatau.relwiki.data;
 
+import org.sadnatau.relwiki.model.Page;
 import org.sadnatau.relwiki.model.QueryTemplate;
 import org.sadnatau.relwiki.model.SearchResultData;
 import org.springframework.stereotype.Component;
@@ -25,8 +26,13 @@ public class MockRelationalDataProvider implements RelationalDataProvider {
             "Where are the proportions?", "Could this be right?"};
 
     @Override
-    public String getPageContent(final String pageName) {
-        return "This is the page data for page " + pageName;
+    public Page getPage(final String pageName) {
+
+        Page page = new Page();
+        page.setAuthors(Arrays.asList("Author1, Author2"));
+        page.setContent("This is the page data for page " + pageName);
+        page.setTitle(pageName);
+        return page;
     }
 
     @Override

@@ -4,26 +4,30 @@ $(document).ready(function()
     slide("#sliding-navigation-authors", 25, 15, 150, .8);
     slide("#sliding-navigation-pages", 25, 15, 150, .8);
 
-    var author = getParameterByName("author");
+    var authors = getParameterByName("authors");
     var keywords = getParameterByName("keywords");
 
 
     // populate the active search header
-    document.getElementById("active-search-authors").innerText = author;
+    document.getElementById("active-search-authors").innerText = authors;
     document.getElementById("active-search-keywords").innerText = keywords
 
 });
 
 function query(anchor, type) {
 
-    // current values for authros and keywords search filter
+    // current values for authors and keywords search filter
     var authorsSearch = document.getElementById("active-search-authors").innerText;
     var keywordsSearch = document.getElementById("active-search-keywords").innerText;
+
+    var pageTitleSearch = "";
 
     if (type == 'author') {
         authorsSearch = appendSearch(authorsSearch)
     } else if (type == 'keyword') {
         keywordsSearch = appendSearch(keywordsSearch)
+    } else if (type == 'page') {
+        pageTitleSearch = anchor.innerText
     }
 
     function appendSearch(currentSearch) {
@@ -34,7 +38,7 @@ function query(anchor, type) {
         }
     }
 
-    window.location.href="/search?author=" + authorsSearch + "&keywords=" + keywordsSearch;
+    window.location.href="/search?authors=" + authorsSearch + "&keywords=" + keywordsSearch + "&pageTitle=" + pageTitleSearch;
 
 }
 

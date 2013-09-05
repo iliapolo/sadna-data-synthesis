@@ -11,7 +11,7 @@
 
 <body>
 <h1 id="active-search" style="margin-top: 10px; margin-bottom: 10px; margin-left: 10px">
-    Relational Wikipedia > Active Search By
+    Relational Wikipedia > Active Search >
       Authors : <span id="active-search-authors" style="font-variant: normal"></span> | Keywords : <span
         id="active-search-keywords" style="font-variant: normal"></span>
 </h1>
@@ -39,24 +39,31 @@
     <div id="navigation-block-pages" style="margin-top: 10px;">
         <ul id="sliding-navigation-pages">
             <li class="sliding-element"><h3>Pages</h3></li>
-            <c:forEach var="page" items="${result.pages}">
-                <li class="sliding-element"><a onclick="getPage(this)"><c:out value="${page}"></c:out></a></li>
+            <c:forEach var="pageTitle" items="${result.pages}">
+                <li class="sliding-element"><a onclick="query(this, 'page')"><c:out value="${pageTitle}"></c:out></a></li>
             </c:forEach>
         </ul>
     </div>
 </div>
-<div id="page" style="margin-top: 10px; margin-left: 10px; border: 1px solid #222222; width: 84%; float: left">
-    <div id="page_content">
-        <c:out value="${pageContent}"></c:out>
-    </div>
-    <div id="page_options">
-        <a href="" class="button edit">edit</a>
-        <a href="" class="button">history</a>
-        <a href="" class="button">comments</a>
-    </div>
-</div>
 
-
+<c:if test="${page != null}">
+    <div id="page" style="margin-top: 10px; margin-left: 10px; width: 84%; float: left">
+        <div id="page_title">
+            <h1 class="page_title"><c:out value="${page.title}"></c:out></h1>
+        </div>
+        <div>
+            <p class="page_authors">by <c:out value="${page.authors}"></c:out></p>
+        </div>
+        <div id="page_content" style="margin-top: 10px">
+            <c:out value="${page.content}"></c:out>
+        </div>
+        <div id="page_options" style="margin-top: 10px">
+            <a href="" class="button edit">edit</a>
+            <a href="" class="button">history</a>
+            <a href="" class="button">comments</a>
+        </div>
+    </div>
+</c:if>
 
 </body>
 </html>
