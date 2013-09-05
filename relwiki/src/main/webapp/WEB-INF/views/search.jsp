@@ -4,9 +4,9 @@
 <html>
 <head>
     <title>Relational Wikipedia</title>
-    <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
-    <script type="text/javascript" src="resources/js/jquery.js"></script>
-    <script type="text/javascript" src="resources/js/script.js"></script>
+    <link rel="stylesheet" type="text/css" href="/resources/css/style.css"/>
+    <script type="text/javascript" src="/resources/js/jquery.js"></script>
+    <script type="text/javascript" src="/resources/js/script.js"></script>
 </head>
 
 <body>
