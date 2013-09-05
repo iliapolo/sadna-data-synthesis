@@ -27,7 +27,7 @@
         </ul>
     </div>
 
-    <div id="navigation-block-authors">
+    <div id="navigation-block-authors" style="margin-top: 10px;">
         <ul id="sliding-navigation-authors">
             <li class="sliding-element"><h3>Authors</h3></li>
             <c:forEach var="author" items="${result.authors}">
@@ -36,7 +36,7 @@
         </ul>
     </div>
 
-    <div id="navigation-block-pages">
+    <div id="navigation-block-pages" style="margin-top: 10px;">
         <ul id="sliding-navigation-pages">
             <li class="sliding-element"><h3>Pages</h3></li>
             <c:forEach var="pageName" items="${result.pages}">
