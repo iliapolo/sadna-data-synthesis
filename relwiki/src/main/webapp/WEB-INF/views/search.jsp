@@ -45,6 +45,16 @@
         </ul>
     </div>
 </div>
+<div id="page" style="margin-top: 10px; margin-left: 10px; border: 1px solid #222222; width: 84%; float: left">
+    <div id="page_content">
+        <c:out value="${pageContent}"></c:out>
+    </div>
+    <div id="page_options">
+        <a href="" class="button edit">edit</a>
+        <a href="" class="button">history</a>
+        <a href="" class="button">comments</a>
+    </div>
+</div>
 
 
 
