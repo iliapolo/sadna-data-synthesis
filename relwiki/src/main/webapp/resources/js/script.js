@@ -34,8 +34,12 @@ function query(anchor, type) {
         }
     }
 
-    window.location.href="search?author=" + authorsSearch + "&keywords=" + keywordsSearch;
+    window.location.href="/search?author=" + authorsSearch + "&keywords=" + keywordsSearch;
 
+}
+
+function getPage(anchor) {
+    window.location.href="/search/" + anchor.innerText
 }
 
 function getParameterByName(name) {

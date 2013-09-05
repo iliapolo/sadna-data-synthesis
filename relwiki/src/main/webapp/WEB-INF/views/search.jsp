@@ -39,8 +39,8 @@
     <div id="navigation-block-pages" style="margin-top: 10px;">
         <ul id="sliding-navigation-pages">
             <li class="sliding-element"><h3>Pages</h3></li>
-            <c:forEach var="pageName" items="${result.pages}">
-                <li class="sliding-element"><a href="#"><c:out value="${pageName}"></c:out></a></li>
+            <c:forEach var="page" items="${result.pages}">
+                <li class="sliding-element"><a onclick="getPage(this)"><c:out value="${page}"></c:out></a></li>
             </c:forEach>
         </ul>
     </div>
