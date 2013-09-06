@@ -8,7 +8,7 @@ import java.util.List;
  * @author Eli Polonsky
  * @since 0.1
  */
-public class SearchResultData {
+public class SearchResult {
 
     private List<String> keywords;
     private List<String> authors;

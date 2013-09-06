@@ -1,8 +1,9 @@
 package org.sadnatau.relwiki.data;
 
+import org.sadnatau.relwiki.model.Comments;
 import org.sadnatau.relwiki.model.Page;
 import org.sadnatau.relwiki.model.QueryTemplate;
-import org.sadnatau.relwiki.model.SearchResultData;
+import org.sadnatau.relwiki.model.SearchResult;
 
 /**
  * Interface for querying data based on the on the relations decomposition.
@@ -14,6 +15,8 @@ public interface RelationalDataProvider {
 
     Page getPage(String pageName);
 
-    SearchResultData get(QueryTemplate template);
+    SearchResult get(QueryTemplate template);
+
+    Comments getComments(String pageTitle);
 
 }

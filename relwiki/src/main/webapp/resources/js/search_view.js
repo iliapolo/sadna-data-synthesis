@@ -7,11 +7,25 @@ $(document).ready(function()
     var authors = getParameterByName("authors");
     var keywords = getParameterByName("keywords");
 
-
     // populate the active search header
     document.getElementById("active-search-authors").innerText = authors;
     document.getElementById("active-search-keywords").innerText = keywords
 
+    $(".keyword_search_anchor").click(
+        function() {
+            query(this, 'keyword')
+        }
+    );
+    $(".author_search_anchor").click(
+        function() {
+            query(this, 'author')
+        }
+    );
+    $(".page_search_anchor").click(
+        function() {
+            query(this, 'page')
+        }
+    )
 });
 
 function query(anchor, type) {
@@ -39,11 +53,10 @@ function query(anchor, type) {
     }
 
     window.location.href="/search?authors=" + authorsSearch + "&keywords=" + keywordsSearch + "&pageTitle=" + pageTitleSearch;
-
 }
 
-function getPage(anchor) {
-    window.location.href="/search/" + anchor.innerText
+function getComments() {
+    window.location.href="/comments/" + getParameterByName("pageTitle");
 }
 
 function getParameterByName(name) {
@@ -92,5 +105,3 @@ function slide(navigation_id, pad_out, pad_in, time, multiplier) {
             });
     });
 }
-
-

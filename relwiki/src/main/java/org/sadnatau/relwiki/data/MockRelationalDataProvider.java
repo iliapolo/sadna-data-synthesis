@@ -1,11 +1,15 @@
 package org.sadnatau.relwiki.data;
 
+import org.sadnatau.relwiki.model.Comment;
+import org.sadnatau.relwiki.model.Comments;
 import org.sadnatau.relwiki.model.Page;
 import org.sadnatau.relwiki.model.QueryTemplate;
-import org.sadnatau.relwiki.model.SearchResultData;
+import org.sadnatau.relwiki.model.SearchResult;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Mock for retrieving data.
@@ -36,13 +40,33 @@ public class MockRelationalDataProvider implements RelationalDataProvider {
     }
 
     @Override
-    public SearchResultData get(final QueryTemplate template) {
+    public SearchResult get(final QueryTemplate template) {
 
-        SearchResultData result = new SearchResultData();
+        SearchResult result = new SearchResult();
         result.setKeywords(Arrays.asList(ALL_KEYWORDS));
         result.setPages(Arrays.asList(ALL_PAGES));
         result.setAuthors(Arrays.asList(ALL_AUTHORS));
         return result;
 
+    }
+
+    @Override
+    public Comments getComments(String pageTitle) {
+
+        List<Comment> commentList = new ArrayList<>();
+        for (int i = 1; i < 6; i++) {
+            commentList.add(createComment(i));
+        }
+        Page page = getPage(pageTitle);
+        Comments comments = new Comments(page);
+        comments.setComments(commentList);
+        return comments;
+    }
+
+    private Comment createComment(int i) {
+        Comment comment = new Comment();
+        comment.setContent("This is comment" + i);
+        comment.setName("Author" + i);
+        return comment;
     }
 }
