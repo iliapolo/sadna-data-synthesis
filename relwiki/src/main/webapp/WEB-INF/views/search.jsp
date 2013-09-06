@@ -11,11 +11,16 @@
 </head>
 
 <body>
-<h1 id="active-search" style="margin-top: 10px; margin-bottom: 10px; margin-left: 10px">
-    Relational Wikipedia > Active Search >
-      Authors : <span id="active-search-authors" style="font-variant: normal"></span> | Keywords : <span
-        id="active-search-keywords" style="font-variant: normal"></span>
-</h1>
+<div>
+    <a style="margin: 10px;" href="/search">
+        <img src="/resources/images/home_w.png" style="float: right" width="30px" height="30px"/>
+    </a>
+    <h1 id="active-search" style="margin-top: 10px; margin-bottom: 10px; margin-left: 10px">
+        Relational Wikipedia > Active Search >
+        Authors : <span id="active-search-authors" style="font-variant: normal"></span> | Keywords : <span
+            id="active-search-keywords" style="font-variant: normal"></span>
+    </h1>
+</div>
 
 <div style="border: 1px solid #333333"></div>
 <div id="navigation" style="margin-top: 10px; border-right: 1px solid #222222; width: 15%; float: left">
