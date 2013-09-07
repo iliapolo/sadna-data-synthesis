@@ -5,6 +5,7 @@ import org.sadnatau.relwiki.data.RelationalDataProvider;
 import org.sadnatau.relwiki.model.Comment;
 import org.sadnatau.relwiki.model.Comments;
 import org.sadnatau.relwiki.model.Page;
+import org.sadnatau.relwiki.model.PageEdit;
 import org.sadnatau.relwiki.model.QueryTemplate;
 import org.sadnatau.relwiki.model.SearchResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,7 @@ public class AppController {
 
     @RequestMapping(value = "comments/{pageTitle}" , method = RequestMethod.POST)
     @ResponseBody public Comment postComment(@RequestBody final Comment comment,
-                                            @PathVariable("pageTitle") final String pageTitle) {
+                                             @PathVariable("pageTitle") final String pageTitle) {
 
         Comment comm = new Comment();
         comm.setName(comment.getName());
@@ -90,6 +91,26 @@ public class AppController {
         ModelAndView modelAndView = new ModelAndView("edit");
         modelAndView.addObject("page", page);
         return modelAndView;
+
+    }
+    @RequestMapping(value = "edit/{pageTitle}" , method = RequestMethod.POST)
+    public ModelAndView savePage(@PathVariable("pageTitle") final String pageTitle,
+                                 @RequestBody final PageEdit pageEdit) {
+
+        // get the current page
+        Page page = relationalDataProvider.getPage(pageTitle);
+
+        // add the current author
+        page.getAuthors().add(pageEdit.getAuthor());
+
+        // set the content
+        page.setContent(pageEdit.getContent());
+
+        // save to backend
+        relationalDataProvider.savePageContent(page);
+
+        // redirect back to the page
+        return new ModelAndView("redirect:/search?pageTitle" + pageTitle);
 
     }
 
