@@ -52,15 +52,15 @@ function query(anchor, type) {
         }
     }
 
-    window.location.href="/search?authors=" + authorsSearch + "&keywords=" + keywordsSearch + "&pageTitle=" + pageTitleSearch;
+    window.location.href="./search?authors=" + authorsSearch + "&keywords=" + keywordsSearch + "&pageTitle=" + pageTitleSearch;
 }
 
 function getComments() {
-    window.location.href="/comments/" + getParameterByName("pageTitle");
+    window.location.href="./comments/" + getParameterByName("pageTitle");
 }
 
 function getEdit() {
-    window.location.href="/edit/" + getParameterByName("pageTitle");
+    window.location.href="./edit/" + getParameterByName("pageTitle");
 }
 
 function getParameterByName(name) {

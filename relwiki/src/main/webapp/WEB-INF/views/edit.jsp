@@ -4,17 +4,17 @@
 <html>
 <head>
     <title>Relational Wikipedia</title>
-    <link rel="stylesheet" type="text/css" href="/resources/css/edit_style.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/common.css"/>
-    <script type="text/javascript" src="/resources/js/jquery.js"></script>
-    <script type="text/javascript" src="/resources/js/expanding.js"></script>
-    <script type="text/javascript" src="/resources/js/edit_view.js"></script>
+    <link rel="stylesheet" type="text/css" href="<%request.getContextPath();%>../resources/css/edit_style.css"/>
+    <link rel="stylesheet" type="text/css" href="<%request.getContextPath();%>../resources/css/common.css"/>
+    <script type="text/javascript" src="<%request.getContextPath();%>../resources/js/jquery.js"></script>
+    <script type="text/javascript" src="<%request.getContextPath();%>../resources/js/expanding.js"></script>
+    <script type="text/javascript" src="<%request.getContextPath();%>../resources/js/edit_view.js"></script>
 </head>
 <body>
 
 <div>
-    <a style="margin: 10px;" href="/search">
-        <img src="/resources/images/home_w.png" style="float: right" width="30px" height="30px"/>
+    <a style="margin: 10px;" href="<%request.getContextPath();%>../">
+        <img src="<%request.getContextPath();%>../resources/images/home_w.png" style="float: right" width="30px" height="30px"/>
     </a>
     <h1 id="page_title" class="page_title" style="margin-left: 5px"><c:out value="${page.title}"></c:out></h1>
     <p class="page_authors" style="margin-left: 5px">by <c:out value="${page.authors}"></c:out></p>

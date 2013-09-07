@@ -4,16 +4,16 @@
 <html>
 <head>
     <title>Relational Wikipedia</title>
-    <link rel="stylesheet" type="text/css" href="/resources/css/search_style.css"/>
-    <link rel="stylesheet" type="text/css" href="/resources/css/common.css"/>
-    <script type="text/javascript" src="/resources/js/jquery.js"></script>
-    <script type="text/javascript" src="/resources/js/search_view.js"></script>
+    <link rel="stylesheet" type="text/css" href="<%request.getContextPath();%>./resources/css/search_style.css"/>
+    <link rel="stylesheet" type="text/css" href="<%request.getContextPath();%>./resources/css/common.css"/>
+    <script type="text/javascript" src="<%request.getContextPath();%>./resources/js/jquery.js"></script>
+    <script type="text/javascript" src="<%request.getContextPath();%>./resources/js/search_view.js"></script>
 </head>
 
 <body>
 <div>
-    <a style="margin: 10px;" href="/search">
-        <img src="/resources/images/home_w.png" style="float: right" width="30px" height="30px"/>
+    <a style="margin: 10px;" href="<%request.getContextPath();%>./">
+        <img src="<%request.getContextPath();%>./resources/images/home_w.png" style="float: right" width="30px" height="30px"/>
     </a>
     <h1 id="active-search" style="margin-top: 10px; margin-bottom: 10px; margin-left: 10px">
         Relational Wikipedia > Active Search >

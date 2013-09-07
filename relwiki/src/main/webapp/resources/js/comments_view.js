@@ -35,7 +35,7 @@ function postComment() {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        url: "/comments/" + pageTitle,
+        url: "../comments/" + pageTitle,
         data: jsonComment,
         dataType: 'json',
         success: function(data) {
