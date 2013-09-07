@@ -37,13 +37,13 @@ public class AppController {
     @RequestMapping(value = "" , method = RequestMethod.GET)
     public ModelAndView welcome(@RequestParam(defaultValue = "") final List<String> keywords,
                                 @RequestParam(defaultValue = "") final List<String> authors) {
-        return getSearchResultData(null, null, "");
+        return search(null, null, "");
     }
 
     @RequestMapping(value = "search" , method = RequestMethod.GET)
-    public ModelAndView getSearchResultData(@RequestParam(defaultValue = "") final List<String> keywords,
-                                            @RequestParam(defaultValue = "") final List<String> authors,
-                                            @RequestParam(defaultValue = "") final String pageTitle) {
+    public ModelAndView search(@RequestParam(defaultValue = "") final List<String> keywords,
+                               @RequestParam(defaultValue = "") final List<String> authors,
+                               @RequestParam(defaultValue = "") final String pageTitle) {
         QueryTemplate queryTemplate = new QueryTemplate();
         Page page = null;
         ModelAndView modelAndView = new ModelAndView("search");
@@ -64,7 +64,7 @@ public class AppController {
         return modelAndView;
     }
     @RequestMapping(value = "comments/{pageTitle}" , method = RequestMethod.GET)
-    public ModelAndView getComments(@PathVariable("pageTitle") final String pageTitle) {
+    public ModelAndView comments(@PathVariable("pageTitle") final String pageTitle) {
 
         Comments comments = relationalDataProvider.getComments(pageTitle);
         ModelAndView modelAndView = new ModelAndView("comments");
@@ -82,4 +82,16 @@ public class AppController {
         comm.setContent(comment.getContent());
         return comm;
     }
+
+    @RequestMapping(value = "edit/{pageTitle}" , method = RequestMethod.GET)
+    public ModelAndView edit(@PathVariable("pageTitle") final String pageTitle) {
+
+        Page page = relationalDataProvider.getPage(pageTitle);
+        ModelAndView modelAndView = new ModelAndView("edit");
+        modelAndView.addObject("page", page);
+        return modelAndView;
+
+    }
+
+
 }

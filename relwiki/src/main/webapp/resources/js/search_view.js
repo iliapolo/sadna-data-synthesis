@@ -59,6 +59,10 @@ function getComments() {
     window.location.href="/comments/" + getParameterByName("pageTitle");
 }
 
+function getEdit() {
+    window.location.href="/edit/" + getParameterByName("pageTitle");
+}
+
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),

@@ -75,7 +75,7 @@
             <c:out value="${page.content}"></c:out>
         </div>
         <div id="page_options" style="margin-top: 10px">
-            <a href="" class="button edit">edit</a>
+            <a href="javascript:getEdit()" class="button edit">edit</a>
             <a href="" class="button">history</a>
             <a href="javascript:getComments()" class="button">comments</a>
         </div>

@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/resources/css/comments_style.css"/>
     <link rel="stylesheet" type="text/css" href="/resources/css/common.css"/>
     <script type="text/javascript" src="/resources/js/jquery.js"></script>
+    <script type="text/javascript" src="/resources/js/expanding.js"></script>
     <script type="text/javascript" src="/resources/js/comments_view.js"></script>
 </head>
 <body>
@@ -29,7 +30,7 @@
     </c:forEach>
 </table>
 
-<form id="comment_form" class="rounded" style="margin-top: 30px" method="post" action="#" onsubmit="return postComment()">
+<form id="form" class="rounded" style="margin-top: 30px" method="post" action="#" onsubmit="return postComment()">
     <h3 style="font-family: 'Courier New', Courier, monospace;">Leave a comment</h3>
 
     <div class="field">
@@ -40,8 +41,7 @@
 
     <div class="field">
         <label for="comment_content">Message:</label>
-        <textarea id="comment_content" class="input textarea">
-        </textarea>
+        <textarea id="comment_content" class="input textarea expanding"></textarea>
         <p class="hint">Write your message.</p>
     </div>
 
