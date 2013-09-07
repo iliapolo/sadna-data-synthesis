@@ -14,13 +14,13 @@ public class QueryTemplate {
     /**
      * List of keywords to search by.
      */
-    private List<String> keywords = new ArrayList<>();
+    private List<String> keywords = new ArrayList<String>();
 
     /**
      * List of authors to search by.
      *
      */
-    private List<String> authors = new ArrayList<>();
+    private List<String> authors = new ArrayList<String>();
 
     public List<String> getKeywords() {
         return keywords;

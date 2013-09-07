@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -29,13 +30,19 @@ public class MockRelationalDataProvider implements RelationalDataProvider {
     private static final String[] ALL_PAGES = {"Me, Myself and Physics", "A trip to netherlands", "Lonely as i go",
             "Where are the proportions?", "Could this be right?"};
 
+    private HashMap<String, Page> pages = new HashMap<String, Page>();
+
     @Override
     public Page getPage(final String pageName) {
 
-        Page page = new Page();
-        page.setAuthors(Arrays.asList("Author1, Author2"));
-        page.setContent("This is the page data for page " + pageName);
-        page.setTitle(pageName);
+        Page page = pages.get(pageName);
+        if (page == null) {
+            page = new Page();
+            // return default page if no one has edited yet
+            page.setAuthors(Arrays.asList("Author1, Author2"));
+            page.setContent("This is the page data for page " + pageName);
+            page.setTitle(pageName);
+        }
         return page;
     }
 
@@ -53,7 +60,7 @@ public class MockRelationalDataProvider implements RelationalDataProvider {
     @Override
     public Comments getComments(String pageTitle) {
 
-        List<Comment> commentList = new ArrayList<>();
+        List<Comment> commentList = new ArrayList<Comment>();
         for (int i = 1; i < 6; i++) {
             commentList.add(createComment(i));
         }
@@ -61,6 +68,12 @@ public class MockRelationalDataProvider implements RelationalDataProvider {
         Comments comments = new Comments(page);
         comments.setComments(commentList);
         return comments;
+    }
+
+    @Override
+    public void savePageContent(final Page currentPageState) {
+        String title = currentPageState.getTitle();
+        pages.put("title", currentPageState);
     }
 
     private Comment createComment(int i) {

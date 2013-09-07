@@ -19,4 +19,6 @@ public interface RelationalDataProvider {
 
     Comments getComments(String pageTitle);
 
+    void savePageContent(Page currentPageState);
+
 }

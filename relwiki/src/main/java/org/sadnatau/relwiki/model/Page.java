@@ -18,7 +18,7 @@ public class Page {
     /**
      * authors of this page.
      */
-    private List<String> authors = new ArrayList<>();
+    private List<String> authors = new ArrayList<String>();
 
     /**
      * Page title.
