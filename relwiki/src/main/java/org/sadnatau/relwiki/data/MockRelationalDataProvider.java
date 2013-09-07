@@ -38,8 +38,10 @@ public class MockRelationalDataProvider implements RelationalDataProvider {
         Page page = pages.get(pageName);
         if (page == null) {
             page = new Page();
+
             // return default page if no one has edited yet
-            page.setAuthors(Arrays.asList("Author1, Author2"));
+
+            page.setAuthors(Arrays.asList("Author1", "Author2"));
             page.setContent("This is the page data for page " + pageName);
             page.setTitle(pageName);
         }
@@ -73,7 +75,7 @@ public class MockRelationalDataProvider implements RelationalDataProvider {
     @Override
     public void savePageContent(final Page currentPageState) {
         String title = currentPageState.getTitle();
-        pages.put("title", currentPageState);
+        pages.put(title, currentPageState);
     }
 
     private Comment createComment(int i) {

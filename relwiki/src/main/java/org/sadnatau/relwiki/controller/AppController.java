@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -94,14 +95,20 @@ public class AppController {
 
     }
     @RequestMapping(value = "edit/{pageTitle}" , method = RequestMethod.POST)
-    public ModelAndView savePage(@PathVariable("pageTitle") final String pageTitle,
-                                 @RequestBody final PageEdit pageEdit) {
+    @ResponseBody public Page savePage(@PathVariable("pageTitle") final String pageTitle,
+                                       @RequestBody final PageEdit pageEdit) {
+
+        // TODO - What are we supposed to do about concurrency? this is a state mutating method!
 
         // get the current page
         Page page = relationalDataProvider.getPage(pageTitle);
 
         // add the current author
-        page.getAuthors().add(pageEdit.getAuthor());
+
+        List<String> newAuthors = new ArrayList<String>();
+        newAuthors.addAll(page.getAuthors());
+        newAuthors.add(pageEdit.getAuthor());
+        page.setAuthors(newAuthors);
 
         // set the content
         page.setContent(pageEdit.getContent());
@@ -109,10 +116,7 @@ public class AppController {
         // save to backend
         relationalDataProvider.savePageContent(page);
 
-        // redirect back to the page
-        return new ModelAndView("redirect:/search?pageTitle" + pageTitle);
-
+        // return the page in its current state
+        return relationalDataProvider.getPage(pageTitle);
     }
-
-
 }

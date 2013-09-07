@@ -25,7 +25,7 @@
               style="width: 100%; border: 2px solid #1a1a1a;"><c:out value="${page.content}"></c:out></textarea>
 </form>
 
-<form id="form" class="rounded" style="margin-top: 30px" method="post" action="#" onsubmit="return editPage()">
+<form id="form" class="rounded" style="margin-top: 30px" method="post" action="#" onsubmit="return savePage()">
     <h3 style="font-family: 'Courier New', Courier, monospace;">Edit Page</h3>
 
     <div class="field">

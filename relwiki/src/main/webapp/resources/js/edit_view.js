@@ -19,6 +19,12 @@ function savePage() {
         },
         url: "../edit/" + pageTitle,
         data: jsonPageEdit,
+        success: function(data) {
+
+            // clear the name input
+            document.getElementById('edit_author_name').value = "";
+
+        },
         dataType: 'json',
         error:   function(jqXHR, textStatus, errorThrown) {
             alert("Error, status = " + textStatus + ", " +
@@ -26,4 +32,6 @@ function savePage() {
             );
         }
     });
+
+    return false;
 }
