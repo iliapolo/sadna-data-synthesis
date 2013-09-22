@@ -20,9 +20,9 @@ public class DataModelQueryGenerator {
      * @return a string representing the query.
      * @throws Exception .
      */
-    public final List<String> generate(final Object template) throws Exception {
+    public static List<String> generate(final Object template) throws Exception {
 
-        List<String> query = new ArrayList<String>();
+        List<String> query = new ArrayList<>();
 
         Field[] fields = template.getClass().getDeclaredFields();
         for (Field  field : fields) {

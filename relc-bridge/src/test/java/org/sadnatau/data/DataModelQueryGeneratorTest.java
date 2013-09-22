@@ -1,10 +1,8 @@
 package org.sadnatau.data;
 
 import junit.framework.Assert;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,14 +14,6 @@ import java.util.List;
  */
 public class DataModelQueryGeneratorTest {
 
-    private static DataModelQueryGenerator queryGenerator;
-
-    @BeforeClass
-    public static void createGenerator() throws IOException {
-        queryGenerator = new DataModelQueryGenerator();
-    }
-
-
     @Test
     public void testGenerateRelcQuery() throws Exception {
 
@@ -34,7 +24,7 @@ public class DataModelQueryGeneratorTest {
         List<String> expectedQuery = new ArrayList<>();
         expectedQuery.add("title:title-value");
         expectedQuery.add("author:author-value");
-        List<String> actualQuery = queryGenerator.generate(mockData);
+        List<String> actualQuery = DataModelQueryGenerator.generate(mockData);
 
         Assert.assertEquals(actualQuery, expectedQuery);
 

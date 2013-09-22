@@ -24,8 +24,6 @@ public class DataProviderClassLoaderTest {
     private static final String FOR_TEST = "org/sadnatau/classloading/" + FILE_NAME;
     private static final String PACKAGE = "org.sadnatau.compiler";
 
-    private DataProviderClassLoader dataProviderClassLoader = new DataProviderClassLoader();
-
     @BeforeClass
     public static void compile() throws IOException {
 
@@ -42,7 +40,7 @@ public class DataProviderClassLoaderTest {
     @Test
     public void testLoad() throws Exception {
 
-        DataProvider load = dataProviderClassLoader.load(RANDOM_USER_HOME, PACKAGE + "." + FILE_NAME);
+        DataProvider load = DataProviderClassLoader.load(RANDOM_USER_HOME, PACKAGE + "." + FILE_NAME);
 
         // invoke every method
         load.empty();

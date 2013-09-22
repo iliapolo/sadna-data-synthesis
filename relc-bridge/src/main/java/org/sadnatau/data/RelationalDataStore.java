@@ -2,13 +2,11 @@ package org.sadnatau.data;
 
 import com.sun.tools.javac.Main;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.commons.io.FileUtils;
 import org.sadnatau.classloading.DataProviderClassLoader;
 import org.sadnatau.relc.compiler.RelcCompilationResult;
 import org.sadnatau.relc.compiler.RelcCompiler;
 import org.sadnatau.relc.data.DataProvider;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -26,7 +24,6 @@ import java.util.Set;
 public class RelationalDataStore<T> {
 
     private DataProvider dataProvider;
-    private DataModelQueryGenerator generator;
 
     /**
      *
@@ -40,7 +37,6 @@ public class RelationalDataStore<T> {
         System.out.println("Creating a RelcCompiler from files [" + relationsPath + "," + decompositionsPath + "]");
         RelcCompiler relcCompiler = new RelcCompiler(relationsPath, decompositionsPath);
         this.dataProvider = createDataProvider(relcCompiler);
-        this.generator = new DataModelQueryGenerator();
     }
 
     private DataProvider createDataProvider(final RelcCompiler relcCompiler) throws Exception {
@@ -59,8 +55,7 @@ public class RelationalDataStore<T> {
         System.out.println("Compiling java code from file " + javaFilePath + " to bytecode");
         Main.compile(javacArguments);
 
-        DataProviderClassLoader loader = new DataProviderClassLoader();
-        return loader.load(compilationResult.getCompiledFileRoot(), compilationResult.getPackageName() + "." +
+        return DataProviderClassLoader.load(compilationResult.getCompiledFileRoot(), compilationResult.getPackageName() + "." +
                 compilationResult.getCompiledFileName());
     }
 
@@ -68,7 +63,7 @@ public class RelationalDataStore<T> {
 
         Set<T> result = new HashSet<>();
 
-        List<String> relcQuery = generator.generate(template);
+        List<String> relcQuery = DataModelQueryGenerator.generate(template);
 
         List<List<String>> query = dataProvider.query(relcQuery, resultFields);
 
@@ -104,13 +99,13 @@ public class RelationalDataStore<T> {
     }
 
     public void remove(final T data) throws Exception {
-        List<String> tuple = generator.generate(data);
+        List<String> tuple = DataModelQueryGenerator.generate(data);
         dataProvider.remove(tuple);
     }
 
     public void update(final T matchingData, Map<String, Object> fieldsToUpdate) throws Exception {
 
-        List<String> matchingTuple = generator.generate(matchingData);
+        List<String> matchingTuple = DataModelQueryGenerator.generate(matchingData);
 
         List<String> updatedValues = new ArrayList<>();
         for (Map.Entry<String, Object> entry : fieldsToUpdate.entrySet()) {

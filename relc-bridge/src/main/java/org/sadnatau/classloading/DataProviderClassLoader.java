@@ -13,7 +13,7 @@ import java.nio.file.Paths;
  */
 public class DataProviderClassLoader {
 
-    public DataProvider load(final String rootFolder,
+    public static DataProvider load(final String rootFolder,
                              final String fullClassName) throws Exception{
 
         // load the class using a custom class loader.
