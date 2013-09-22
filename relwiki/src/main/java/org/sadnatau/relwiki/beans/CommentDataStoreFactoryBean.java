@@ -1,10 +1,9 @@
 package org.sadnatau.relwiki.beans;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import org.sadnatau.data.RelationalDataStore;
 import org.sadnatau.relwiki.data.CommentDataStore;
 import org.sadnatau.relwiki.model.Comment;
+import org.sadnatau.relwiki.utils.Utils;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.stereotype.Component;
 
@@ -16,15 +15,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommentDataStoreFactoryBean implements FactoryBean<CommentDataStore> {
 
-    private static final String RELATIONS_PATH = "comment/relation.txt";
+    private static final String RELATION_PATH = "comment/relation.txt";
     private static final String DECOMPOSITIONS_PATH = "comment/decompositions.txt";
 
     @Override
     public CommentDataStore getObject() throws Exception {
 
-        String relationsString = Resources.toString(Resources.getResource(RELATIONS_PATH), Charsets.UTF_8);
-        String decompositionsString = Resources.toString(Resources.getResource(DECOMPOSITIONS_PATH), Charsets.UTF_8);
-        RelationalDataStore dataStore = new RelationalDataStore(relationsString, decompositionsString);
+        String relationPath = Utils.extractResource(RELATION_PATH, "relation.txt").getAbsolutePath();
+        String decompositionPath = Utils.extractResource(DECOMPOSITIONS_PATH, "decompositions.txt").getAbsolutePath();
+        RelationalDataStore dataStore = new RelationalDataStore(relationPath, decompositionPath);
 
         return new CommentDataStore(dataStore);
     }

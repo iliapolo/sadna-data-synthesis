@@ -30,43 +30,17 @@ public class RelationalDataStore<T> {
 
     /**
      *
-     * @param relations
-     * @param decompositions
+     * @param relationsPath
+     * @param decompositionsPath
      * @throws IOException
      */
-    public RelationalDataStore(final String relations,
-                               final String decompositions) throws Exception {
-
-        File tempDirectory = createTempDirectory();
-
-        String relationsPath = tempDirectory.getAbsolutePath() + "/relations.txt";
-        String decompositionsPath = tempDirectory.getAbsolutePath() + "/decompositions.txt";
-        FileUtils.writeStringToFile(new File(relationsPath), relations);
-        FileUtils.writeStringToFile(new File(decompositionsPath), decompositions);
+    public RelationalDataStore(final String relationsPath,
+                               final String decompositionsPath) throws Exception {
 
         System.out.println("Creating a RelcCompiler from files [" + relationsPath + "," + decompositionsPath + "]");
         RelcCompiler relcCompiler = new RelcCompiler(relationsPath, decompositionsPath);
         this.dataProvider = createDataProvider(relcCompiler);
         this.generator = new DataModelQueryGenerator();
-
-        FileUtils.deleteDirectory(tempDirectory);
-    }
-
-    private File createTempDirectory() throws IOException {
-
-        File temp = File.createTempFile("temp", Long.toString(System.nanoTime()));
-
-        boolean delete = temp.delete();
-        if (!delete) {
-            throw new IOException("Could not delete temp file: " + temp.getAbsolutePath());
-        }
-
-        boolean mkdir = temp.mkdir();
-        if (!mkdir) {
-            throw new IOException("Could not create temp directory: " + temp.getAbsolutePath());
-        }
-
-        return temp;
     }
 
     private DataProvider createDataProvider(final RelcCompiler relcCompiler) throws Exception {

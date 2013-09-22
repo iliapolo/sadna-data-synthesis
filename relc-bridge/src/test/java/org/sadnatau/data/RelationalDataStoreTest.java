@@ -1,6 +1,5 @@
 package org.sadnatau.data;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.junit.Assert;
 import org.junit.Test;
@@ -107,9 +106,9 @@ public class RelationalDataStoreTest {
     }
 
     private RelationalDataStore<Page> createDataStore() throws Exception {
-        String relation = Resources.toString(Resources.getResource(RELATION), Charsets.UTF_8);
-        String decomp = Resources.toString(Resources.getResource(DECOMPOSITIONS), Charsets.UTF_8);;
-        RelationalDataStore<Page> pageRelationalDataStore = new RelationalDataStore<>(relation, decomp);
+        String relationPath = Resources.getResource(RELATION).getPath();
+        String decompositionPath = Resources.getResource(DECOMPOSITIONS).getPath();
+        RelationalDataStore<Page> pageRelationalDataStore = new RelationalDataStore<>(relationPath, decompositionPath);
         pageRelationalDataStore.empty();
         return pageRelationalDataStore;
     }
