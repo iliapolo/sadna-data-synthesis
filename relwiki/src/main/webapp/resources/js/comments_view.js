@@ -17,7 +17,7 @@ $(document.body).ready(
 
 function postComment() {
 
-    var pageTitle = document.getElementById('page_title').innerText;
+    var pageTitle = document.getElementById('page_title').value;
     var comment_author_name = document.getElementById('comment_author_name').value;
     var comment_content = document.getElementById('comment_content').value;
 

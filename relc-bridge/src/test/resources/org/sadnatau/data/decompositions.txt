@@ -1,0 +1,6 @@
+x: y<author | htable>; a<title | htable>; w<keyword | htable>
+y: z<keyword | htable>
+z: b<title | list>
+w: b<title | list>
+a: b<keyword | list>
+b: title, wikitext

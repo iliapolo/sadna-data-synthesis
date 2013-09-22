@@ -1,0 +1,8 @@
+x: y<title | htable>; a<revision |  htable>
+y: z<revision | htable>
+z: w<addedOrRemoved | list>
+w: d<lineNumber | list>
+a: b<title | htable>
+b: c<addedOrRemoved | list>
+c: d<lineNumber | list>
+d: text

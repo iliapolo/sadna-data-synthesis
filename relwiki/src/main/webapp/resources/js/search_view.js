@@ -63,6 +63,10 @@ function getEdit() {
     window.location.href="./edit/" + getParameterByName("pageTitle");
 }
 
+function getAdd() {
+    window.location.href="./add"
+}
+
 function getParameterByName(name) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),

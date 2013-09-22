@@ -1,0 +1,39 @@
+package org.sadnatau.compiler;
+
+import org.sadnatau.relc.data.DataProvider;
+import org.sadnatau.relc.util.SemanticError;
+
+import java.util.List;
+
+/**
+ *
+ * @author Eli Polonsky
+ * @since 0.1
+ */
+public class ForTest implements DataProvider {
+
+    @Override
+    public void empty() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void insert(List<String> colValues) throws SemanticError {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<List<String>> query(List<String> query, List<String> resultColumns) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void remove(List<String> tuple) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void update(List<String> matchingTuple, List<String> updateValues) throws SemanticError {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+}

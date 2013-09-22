@@ -16,16 +16,16 @@
     <a style="margin: 10px;" href="<%request.getContextPath();%>../">
         <img src="<%request.getContextPath();%>../resources/images/home_w.png" style="float: right" width="30px" height="30px"/>
     </a>
-    <h1 id="page_title" class="page_title" style="margin-left: 5px"><c:out value="${comments.page.title}"></c:out></h1>
-    <p class="page_authors" style="margin-left: 5px">by <c:out value="${comments.page.authors}"></c:out></p>
+    <h1 id="page_title" class="page_title" style="margin-left: 5px"><c:out value="${title}"></c:out></h1>
+    <p class="page_authors" style="margin-left: 5px">by <c:out value="${authors}"></c:out></p>
 </div>
 <table id="comments_table" class="comments_table" border="1">
     <tr><th>Name</th><th>Time</th><th>Comment</th></tr>
-    <c:forEach var="comment" items="${comments.comments}">
+    <c:forEach var="comment" items="${comments}">
         <tr>
-            <td><c:out value="${comment.name}"></c:out></td>
-            <td><c:out value="${comment.time}"></c:out></td>
-            <td><c:out value="${comment.content}"></c:out></td>
+            <td><c:out value="${comment.author}"></c:out></td>
+            <td><c:out value="${comment.date}"></c:out></td>
+            <td><c:out value="${comment.comment}"></c:out></td>
         </tr>
     </c:forEach>
 </table>

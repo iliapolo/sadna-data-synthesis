@@ -16,13 +16,13 @@
     <a style="margin: 10px;" href="<%request.getContextPath();%>../">
         <img src="<%request.getContextPath();%>../resources/images/home_w.png" style="float: right" width="30px" height="30px"/>
     </a>
-    <h1 id="page_title" class="page_title" style="margin-left: 5px"><c:out value="${page.title}"></c:out></h1>
-    <p class="page_authors" style="margin-left: 5px">by <c:out value="${page.authors}"></c:out></p>
+    <h1 id="page_title" class="page_title" style="margin-left: 5px"><c:out value="${title}"></c:out></h1>
+    <p class="page_authors" style="margin-left: 5px">by <c:out value="${authors}"></c:out></p>
 </div>
 
 <form>
     <textarea id="page_content" class="input textarea expanding"
-              style="width: 100%; border: 2px solid #1a1a1a;"><c:out value="${page.content}"></c:out></textarea>
+              style="width: 100%; border: 2px solid #1a1a1a;"><c:out value="${wikitext}"></c:out></textarea>
 </form>
 
 <form id="form" class="rounded" style="margin-top: 30px" method="post" action="#" onsubmit="return savePage()">

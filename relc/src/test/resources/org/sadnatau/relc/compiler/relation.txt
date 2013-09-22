@@ -1,0 +1,2 @@
+{ns, pid, state, cpu}
+ns, pid -> state, cpu

@@ -1,0 +1,2 @@
+{title, date, time, author, comment}
+title, date, time -> author, comment

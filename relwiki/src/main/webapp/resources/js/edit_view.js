@@ -1,6 +1,6 @@
 function savePage() {
 
-    var pageTitle = document.getElementById('page_title').innerText;
+    var pageTitle = document.getElementById('page_title').value;
     var edit_author_name = document.getElementById('edit_author_name').value;
     var edit_content = document.getElementById('page_content').value;
 

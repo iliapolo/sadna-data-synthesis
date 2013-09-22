@@ -27,7 +27,7 @@
     <div id="navigation-block-keywords">
         <ul id="sliding-navigation-keywords">
             <li class="sliding-element"><h3>Keywords</h3></li>
-            <c:forEach var="keyword" items="${result.keywords}">
+            <c:forEach var="keyword" items="${filteredKeywords}">
                 <li class="sliding-element">
                     <!--The class here is just easy element identification for javascript manipulation
                         see search_view.js
@@ -41,7 +41,7 @@
     <div id="navigation-block-authors" style="margin-top: 10px;">
         <ul id="sliding-navigation-authors">
             <li class="sliding-element"><h3>Authors</h3></li>
-            <c:forEach var="name" items="${result.authors}">
+            <c:forEach var="name" items="${filteredAuthors}">
                 <li class="sliding-element">
                     <!--The class here is just easy element identification for javascript manipulation
                         see search_view.js
@@ -54,8 +54,12 @@
 
     <div id="navigation-block-pages" style="margin-top: 10px;">
         <ul id="sliding-navigation-pages">
-            <li class="sliding-element"><h3>Pages</h3></li>
-            <c:forEach var="pageTitle" items="${result.pages}">
+            <li class="sliding-element">
+                <h3>Pages<br><br>
+                    <a href="javascript:getAdd()" style="width: 50%" class="button add">Add Page</a>
+                </h3>
+            </li>
+            <c:forEach var="pageTitle" items="${filteredPages}">
                 <li class="sliding-element">
                     <!--The class here is just easy element identification for javascript manipulation
                         see search_view.js
@@ -67,12 +71,12 @@
     </div>
 </div>
 
-<c:if test="${page != null}">
+<c:if test="${pageTitle != null && pageAuthors != null && pageContent}">
     <div id="page" style="margin-top: 10px; margin-left: 10px; width: 84%; float: left">
-        <h1 class="page_title"><c:out value="${page.title}"></c:out></h1>
-        <p class="page_authors">by <c:out value="${page.authors}"></c:out></p>
+        <h1 class="page_title"><c:out value="${pageTitle}"></c:out></h1>
+        <p class="page_authors">by <c:out value="${pageAuthors}"></c:out></p>
         <div id="page_content" style="margin-top: 10px">
-            <c:out value="${page.content}"></c:out>
+            <c:out value="${pageContent}"></c:out>
         </div>
         <div id="page_options" style="margin-top: 10px">
             <a href="javascript:getEdit()" class="button edit">edit</a>

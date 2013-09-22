@@ -1,0 +1,4 @@
+x: y<ns | htable>; z<state | vector>
+y: w<pid | htable>
+z: w<ns, pid | list>
+w: cpu
