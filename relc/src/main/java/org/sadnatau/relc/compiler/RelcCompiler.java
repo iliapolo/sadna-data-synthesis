@@ -109,7 +109,8 @@ public class RelcCompiler {
             out = new ObjectOutputStream(new FileOutputStream(serializedGraphFilePath));
             out.writeObject(this.decompGraph);
 
-            String pathToTemplate = Resources.getResource("org/sadnatau/relc/compiler/DataProviderImpl.template").getPath();
+            String pathToTemplate = ToolBox.extractResource("org/sadnatau/relc/compiler/DataProviderImpl.template",
+                    "DataProviderImpl.template").getAbsolutePath();
 
             reader = new BufferedReader(new FileReader(pathToTemplate));
             String outputFilePath = outputCodeDir + "/" + outClassName + ".java";
