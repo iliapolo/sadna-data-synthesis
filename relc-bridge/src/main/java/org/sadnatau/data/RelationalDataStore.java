@@ -21,7 +21,7 @@ import java.util.Set;
  * @author Eli Polonsky
  * @since 0.1
  */
-public class RelationalDataStore<T> {
+public class RelationalDataStore<T> implements DataStore<T> {
 
     private DataProvider dataProvider;
 
@@ -59,7 +59,8 @@ public class RelationalDataStore<T> {
                 compilationResult.getCompiledFileName());
     }
 
-    public final Set<T> query(T template, List<String> resultFields) throws Exception {
+    @Override
+    public Set<T> query(T template, List<String> resultFields) throws Exception {
 
         Set<T> result = new HashSet<>();
 
@@ -86,8 +87,8 @@ public class RelationalDataStore<T> {
         return result;
     }
 
-    public final void insert(final T data) throws Exception {
-
+    @Override
+    public void insert(T data) throws Exception {
         List<String> tupleValues = new ArrayList<>();
 
         for (Field field : data.getClass().getDeclaredFields()) {
@@ -98,12 +99,14 @@ public class RelationalDataStore<T> {
         dataProvider.insert(tupleValues);
     }
 
-    public void remove(final T data) throws Exception {
-        List<String> tuple = DataModelQueryGenerator.generate(data);
+    @Override
+    public void remove(T template) throws Exception {
+        List<String> tuple = DataModelQueryGenerator.generate(template);
         dataProvider.remove(tuple);
     }
 
-    public void update(final T matchingData, Map<String, Object> fieldsToUpdate) throws Exception {
+    @Override
+    public void update(T matchingData, Map<String, Object> fieldsToUpdate) throws Exception {
 
         List<String> matchingTuple = DataModelQueryGenerator.generate(matchingData);
 
@@ -116,6 +119,7 @@ public class RelationalDataStore<T> {
         dataProvider.update(matchingTuple, updatedValues);
     }
 
+    @Override
     public void empty() {
         dataProvider.empty();
     }
