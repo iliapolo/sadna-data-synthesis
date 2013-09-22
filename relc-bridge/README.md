@@ -39,7 +39,9 @@ This compiler accepts to inputs:
     pageRelationalDataStore.update(updateTemplate, updates);`
     
 
-The return value is an implmentation of the [DataStore] interface. which is an object oriented API of the [DataProvider] interface you saw in [relc]
+The return value is an implmentation of the [DataStore](src/main/java/org/sadnatau/data/DataStore.java) interface. 
+which is an object oriented API of the [DataProvider](../relc/src/main/java/org/sadnatau/relc/data/DataProvider.java) 
+interface you saw in [relc](../relc)
     
     
 
