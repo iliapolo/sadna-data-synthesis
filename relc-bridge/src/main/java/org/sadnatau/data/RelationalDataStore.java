@@ -1,14 +1,15 @@
 package org.sadnatau.data;
 
-import com.sun.tools.javac.Main;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.sadnatau.classloading.DataProviderClassLoader;
+import org.sadnatau.compiler.JavacCompiler;
 import org.sadnatau.relc.compiler.RelcCompilationResult;
 import org.sadnatau.relc.compiler.RelcCompiler;
 import org.sadnatau.relc.data.DataProvider;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -50,10 +51,12 @@ public class RelationalDataStore<T> implements DataStore<T> {
 
         String javaFilePath = compilationResult.getCompiledFileRoot() + "/" + packagePath + "/" + compilationResult
                 .getCompiledFileName() + ".java";
-        String[] javacArguments = {javaFilePath};
 
+
+        URL relc = this.getClass().getClassLoader().getResource("org/sadnatau/relc");
+        JavacCompiler javacCompiler = new JavacCompiler(relc);
         System.out.println("Compiling java code from file " + javaFilePath + " to bytecode");
-        Main.compile(javacArguments);
+        javacCompiler.compile(javaFilePath);
 
         return DataProviderClassLoader.load(compilationResult.getCompiledFileRoot(), compilationResult.getPackageName() + "." +
                 compilationResult.getCompiledFileName());

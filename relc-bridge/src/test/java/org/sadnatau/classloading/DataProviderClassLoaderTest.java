@@ -1,11 +1,11 @@
 package org.sadnatau.classloading;
 
 import com.google.common.io.Resources;
-import com.sun.tools.javac.Main;
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.sadnatau.compiler.JavacCompiler;
 import org.sadnatau.relc.data.DataProvider;
 
 import java.io.File;
@@ -25,7 +25,7 @@ public class DataProviderClassLoaderTest {
     private static final String PACKAGE = "org.sadnatau.compiler";
 
     @BeforeClass
-    public static void compile() throws IOException {
+    public static void compile() throws IOException, InterruptedException {
 
         File source = new File(Resources.getResource(FOR_TEST).getPath());
         File target = new File(RANDOM_USER_HOME + "/" + PACKAGE.replace(".", "/") + "/ForTest.java");
@@ -34,7 +34,9 @@ public class DataProviderClassLoaderTest {
         FileUtils.copyFile(source, target);
 
         // compile to bytecode
-        Main.compile(new String[] {target.getAbsolutePath()});
+        // the relc package is needed for compilation
+        JavacCompiler javacCompiler = new JavacCompiler(Resources.getResource("org/sadnatau/relc"));
+        javacCompiler.compile(target.getAbsolutePath());
     }
 
     @Test

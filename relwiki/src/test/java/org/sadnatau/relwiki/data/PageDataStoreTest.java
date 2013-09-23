@@ -100,7 +100,7 @@ public class PageDataStoreTest {
 
     private PageDataStore createDataStore() throws Exception {
         PageDataStoreFactoryBean bean = new PageDataStoreFactoryBean();
-        PageDataStore dataStore = bean.getObject();
+        PageDataStore dataStore = bean.getPageDataStore();
         dataStore.empty();
         return dataStore;
     }

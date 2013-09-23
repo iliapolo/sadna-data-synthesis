@@ -10,13 +10,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.sun</groupId>
-            <artifactId>tools</artifactId>
-            <scope>system</scope>
-            <systemPath>${java.home}/../lib/tools.jar</systemPath>
-            <version>dummy</version>
-        </dependency>
-        <dependency>
             <groupId>org.sadnatau</groupId>
             <artifactId>relc</artifactId>
             <version>0.1-SNAPSHOT</version>

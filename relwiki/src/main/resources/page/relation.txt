@@ -1,2 +1,2 @@
 {title, author, wikitext, keyword}
-title -> author, wikitext
+title -> author, wikitext, keyword
