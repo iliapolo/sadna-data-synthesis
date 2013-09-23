@@ -51,16 +51,19 @@ function query(anchor, type) {
             return anchor.innerText;
         }
     }
-
-    window.location.href="./search?authors=" + authorsSearch + "&keywords=" + keywordsSearch + "&pageTitle=" + pageTitleSearch;
+    if (pageTitleSearch != "") {
+        window.location.href="./search?title=" + pageTitleSearch;
+    } else {
+        window.location.href="./search?authors=" + authorsSearch + "&keywords=" + keywordsSearch;
+    }
 }
 
 function getComments() {
-    window.location.href="./comments/" + getParameterByName("pageTitle");
+    window.location.href="./comments/" + getParameterByName("title");
 }
 
 function getEdit() {
-    window.location.href="./edit/" + getParameterByName("pageTitle");
+    window.location.href="./edit/" + getParameterByName("title");
 }
 
 function getAdd() {

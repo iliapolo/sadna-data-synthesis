@@ -36,7 +36,7 @@ public class EditController {
         ModelAndView modelAndView = new ModelAndView("edit");
         modelAndView.addObject("title", title);
         modelAndView.addObject("authors", authors);
-        modelAndView.addObject("content", content);
+        modelAndView.addObject("wikitext", content);
         return modelAndView;
 
     }

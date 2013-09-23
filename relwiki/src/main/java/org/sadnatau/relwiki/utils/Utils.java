@@ -6,6 +6,9 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -40,6 +43,17 @@ public class Utils {
         return file;
     }
 
+    public static <T> Set<T> findIntersection(Set<T> first, Set<T> second) {
+        Set<T> common = new HashSet<T>(first);
+        common.retainAll(second);
+        return common;
+    }
 
-
+    public static <T> Set<T> findIntersection(List<Set<T>> sets) {
+        Set<T> intersection = sets.get(0);
+        for (int i = 1; i < sets.size(); i++) {
+            intersection = findIntersection(intersection, sets.get(i));
+        }
+        return intersection;
+    }
 }

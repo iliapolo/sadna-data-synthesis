@@ -19,7 +19,7 @@
 </div>
 
 
-<form id="form" style="width: 100%; height: 100%" class="rounded" method="post" action="#" onsubmit="return postComment()">
+<form id="form" style="width: 80%; height: 80%" class="rounded" method="post" action="#" onsubmit="return postComment()">
     <h3 style="font-family: 'Courier New', Courier, monospace;">Add Page</h3>
 
     <div class="field">

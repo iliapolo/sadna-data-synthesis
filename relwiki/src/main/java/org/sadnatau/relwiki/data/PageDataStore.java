@@ -4,7 +4,6 @@ import org.sadnatau.data.RelationalDataStore;
 import org.sadnatau.relwiki.model.Page;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,7 +31,7 @@ public class PageDataStore {
         pageTemplate.setTitle(title);
 
         // this will populate just the author field of the results
-        Collection<Page> pages = pageRelationalDataStore.query(pageTemplate, Arrays.asList("author"));
+        Set<Page> pages = pageRelationalDataStore.query(pageTemplate, Arrays.asList("author"));
 
         for (Page page : pages) {
             authors.add(page.getAuthor());
@@ -47,7 +46,7 @@ public class PageDataStore {
         pageTemplate.setTitle(title);
 
         // this will populate just the author field of the results
-        Collection<Page> pages = pageRelationalDataStore.query(pageTemplate, Arrays.asList("keyword"));
+        Set<Page> pages = pageRelationalDataStore.query(pageTemplate, Arrays.asList("keyword"));
 
         for (Page page : pages) {
             keywords.add(page.getKeyword());
@@ -61,7 +60,7 @@ public class PageDataStore {
         Page pageTemplate = new Page();
         pageTemplate.setTitle(title);
 
-        Collection<Page> pages = pageRelationalDataStore.query(pageTemplate, Arrays.asList("wikitext"));
+        Set<Page> pages = pageRelationalDataStore.query(pageTemplate, Arrays.asList("wikitext"));
         return pages.iterator().next().getWikitext();
     }
 
@@ -69,8 +68,58 @@ public class PageDataStore {
         pageRelationalDataStore.insert(page);
     }
 
-    public Set<Page> getAll() throws Exception {
+    public Set<String> getAll() throws Exception {
         Page pageTemplate = new Page();
-        return pageRelationalDataStore.query(pageTemplate, Arrays.asList("author", "keyword", "title", "wikitext"));
+        Set<Page> query =
+                pageRelationalDataStore.query(pageTemplate, Arrays.asList("title"));
+        Set<String> pageTitles = new HashSet<String>();
+        for (Page page : query) {
+            pageTitles.add(page.getTitle()) ;
+        }
+        return pageTitles;
+    }
+
+    public Set<String> getPagesForKeyword(String keyword) throws Exception {
+        Set<String> result = new HashSet<String>();
+        Page template = new Page();
+        template.setKeyword(keyword);
+        Set<Page> titles = pageRelationalDataStore.query(template, Arrays.asList("title"));
+        for (Page page : titles) {
+            result.add(page.getTitle());
+        }
+        return result;
+    }
+
+    public Set<String> getPagesForAuthor(String author) throws Exception {
+        Set<String> result = new HashSet<String>();
+        Page template = new Page();
+        template.setAuthor(author);
+        Set<Page> titles = pageRelationalDataStore.query(template, Arrays.asList("title"));
+        for (Page page : titles) {
+            result.add(page.getTitle());
+        }
+        return result;
+    }
+
+    public Set<String> getAllKeywords() throws Exception {
+        Page pageTemplate = new Page();
+        Set<Page> query =
+                pageRelationalDataStore.query(pageTemplate, Arrays.asList("keyword"));
+        Set<String> pageKeywords = new HashSet<String>();
+        for (Page page : query) {
+            pageKeywords.add(page.getKeyword()) ;
+        }
+        return pageKeywords;
+    }
+
+    public Set<String> getAllAuthors() throws Exception {
+        Page pageTemplate = new Page();
+        Set<Page> query =
+                pageRelationalDataStore.query(pageTemplate, Arrays.asList("author"));
+        Set<String> pageAuthors = new HashSet<String>();
+        for (Page page : query) {
+            pageAuthors.add(page.getAuthor()) ;
+        }
+        return pageAuthors;
     }
 }

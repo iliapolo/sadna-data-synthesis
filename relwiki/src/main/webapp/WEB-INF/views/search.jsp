@@ -71,7 +71,7 @@
     </div>
 </div>
 
-<c:if test="${pageTitle != null && pageAuthors != null && pageContent}">
+<c:if test="${pageContent != null}">
     <div id="page" style="margin-top: 10px; margin-left: 10px; width: 84%; float: left">
         <h1 class="page_title"><c:out value="${pageTitle}"></c:out></h1>
         <p class="page_authors">by <c:out value="${pageAuthors}"></c:out></p>

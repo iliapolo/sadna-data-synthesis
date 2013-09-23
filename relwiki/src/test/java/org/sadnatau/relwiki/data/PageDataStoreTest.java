@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.sadnatau.relwiki.beans.PageDataStoreFactoryBean;
 import org.sadnatau.relwiki.model.Page;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -87,15 +88,106 @@ public class PageDataStoreTest {
 
         PageDataStore dataStore = createDataStore();
 
-        Set<Page> expected = new HashSet<Page>();
+        Set<String> expected = new HashSet<String>();
         for (int i = 0; i < 5; i++) {
             Page page = new Page();
             page.setTitle("title" + i);
             dataStore.add(page);
-            expected.add(page);
+            expected.add(page.getTitle());
         }
-        Set<Page> all = dataStore.getAll();
+        Set<String> all = dataStore.getAll();
         Assert.assertEquals(expected, all);
+    }
+
+    @Test
+    public void testGetPagesForKeyword() throws Exception {
+
+        PageDataStore dataStore = createDataStore();
+
+        Page page = new Page();
+        page.setTitle("title1");
+        page.setKeyword("hello");
+
+        Page page1 = new Page();
+        page1.setTitle("title2");
+        page1.setKeyword("hello");
+
+        dataStore.add(page);
+        dataStore.add(page1);
+
+        Set<String> expected = new HashSet<String>(Arrays.asList("title1", "title2"));
+
+        Set<String> titles = dataStore.getPagesForKeyword("hello");
+        Assert.assertEquals(expected, titles);
+    }
+
+    @Test
+    public void testGetPagesForAuthor() throws Exception {
+
+        PageDataStore dataStore = createDataStore();
+
+        Page page = new Page();
+        page.setTitle("title1");
+        page.setAuthor("hello");
+
+        Page page1 = new Page();
+        page1.setTitle("title2");
+        page1.setAuthor("hello");
+
+        dataStore.add(page);
+        dataStore.add(page1);
+
+        Set<String> expected = new HashSet<String>(Arrays.asList("title1", "title2"));
+
+        Set<String> titles = dataStore.getPagesForAuthor("hello");
+        Assert.assertEquals(expected, titles);
+
+    }
+
+    @Test
+    public void testGetAllKeywords() throws Exception {
+
+        PageDataStore dataStore = createDataStore();
+
+        Page page = new Page();
+        page.setTitle("title1");
+        page.setKeyword("hello1");
+
+        Page page1 = new Page();
+        page1.setTitle("title2");
+        page1.setKeyword("hello2");
+
+        dataStore.add(page);
+        dataStore.add(page1);
+
+        Set<String> expected = new HashSet<String>(Arrays.asList("hello1", "hello2"));
+
+        Set<String> titles = dataStore.getAllKeywords();
+        Assert.assertEquals(expected, titles);
+
+    }
+
+    @Test
+    public void testGetAllAuthors() throws Exception {
+
+        PageDataStore dataStore = createDataStore();
+
+        Page page = new Page();
+        page.setTitle("title1");
+        page.setAuthor("hello1");
+
+        Page page1 = new Page();
+        page1.setTitle("title2");
+        page1.setAuthor("hello2");
+
+        dataStore.add(page);
+        dataStore.add(page1);
+
+        Set<String> expected = new HashSet<String>(Arrays.asList("hello1", "hello2"));
+
+        Set<String> titles = dataStore.getAllAuthors();
+        Assert.assertEquals(expected, titles);
+
     }
 
     private PageDataStore createDataStore() throws Exception {

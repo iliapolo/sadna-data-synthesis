@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,13 +37,17 @@ public class CommentController {
     @RequestMapping(value = "comments/{title}" , method = RequestMethod.GET)
     public ModelAndView comments(@PathVariable("title") final String title) throws Exception {
 
-        Collection<Comment> comments = commentDataProvider.getAll(title);
+        Set<Comment> comments = commentDataProvider.getAll(title);
+
+        List<Comment> sortedComments = new ArrayList<Comment>(comments);
+
+        Collections.sort(sortedComments);
         Set<String> authors = pagesDataProvider.getAuthors(title);
 
         ModelAndView modelAndView = new ModelAndView("comments");
         modelAndView.addObject("title", title);
         modelAndView.addObject("authors", authors);
-        modelAndView.addObject("comments", comments);
+        modelAndView.addObject("comments", sortedComments);
         return modelAndView;
     }
 

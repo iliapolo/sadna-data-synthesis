@@ -1,11 +1,13 @@
 package org.sadnatau.relwiki.model;
 
+import java.util.Date;
+
 /**
  *
  * @author Eli Polonsky
  * @since 0.1
  */
-public class Comment {
+public class Comment implements Comparable<Comment> {
 
     private String author;
     private String date;
@@ -88,5 +90,29 @@ public class Comment {
                 ", comment='" + comment + '\'' +
                 ", title='" + title + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Comment other) {
+
+        // compare two comments by date and time
+        // this is to make it sortable.
+        Date myDate = getDate(this);
+        Date otherDate = getDate(other);
+
+        return myDate.compareTo(otherDate);
+    }
+
+    private Date getDate(Comment comment) {
+        String[] commentDate = comment.getDate().split("/");
+        String[] commentTime = comment.getTime().split("-");
+        Date date = new Date();
+        date.setDate(Integer.valueOf(commentDate[0]));
+        date.setMonth(Integer.valueOf(commentDate[1]));
+        date.setYear(Integer.valueOf(commentDate[2]));
+        date.setHours(Integer.valueOf(commentTime[0]));
+        date.setMinutes(Integer.valueOf(commentTime[1]));
+        date.setSeconds(Integer.valueOf(commentTime[2]));
+        return date;
     }
 }

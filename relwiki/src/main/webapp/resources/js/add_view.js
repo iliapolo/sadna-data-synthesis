@@ -5,14 +5,14 @@ function addPage() {
     var pageContent = document.getElementById('page_content').value;
     var pageAuthorName = document.getElementById('page_author_name').value;
 
-    var page = {
+    var newPage = {
         "title" : pageTitle,
-        "authors" : [pageAuthorName],
-        "content" : pageContent,
-        "keywords": [pageKeywords]
+        "author" : pageAuthorName,
+        "wikitext" : pageContent,
+        "keywords": pageKeywords.trim().split(",")
     };
 
-    var jsonPage = JSON.stringify(page);
+    var jsonPage = JSON.stringify(newPage);
 
     $.ajax({
         type: "POST",
@@ -25,7 +25,12 @@ function addPage() {
         dataType: 'json',
         success: function(data) {
 
-            alert("success");
+            document.getElementById('page_title').value = "";
+            document.getElementById('page_keywords').value = "";
+            document.getElementById('page_content').value = "";
+            document.getElementById('page_author_name').value = "";
+
+            alert("Page added successfully")
 
         },
         error:   function(jqXHR, textStatus, errorThrown) {
@@ -34,7 +39,4 @@ function addPage() {
             );
         }
     });
-
-
-
 }

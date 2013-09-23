@@ -11,6 +11,6 @@ public class CommentDataStoreFactoryBeanTest {
 
     @Test
     public void testGetObject() throws Exception {
-        new CommentDataStoreFactoryBean().getObject();
+        new CommentDataStoreFactoryBean().getCommentDataStore();
     }
 }

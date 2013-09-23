@@ -20,14 +20,19 @@
     <p class="page_authors" style="margin-left: 5px">by <c:out value="${authors}"></c:out></p>
 </div>
 <table id="comments_table" class="comments_table" border="1">
-    <tr><th>Name</th><th>Time</th><th>Comment</th></tr>
+    <tbody id="comments_table-body">
+    <tr>
+        <th>Author</th><th>Date</th><th>Time</th><th>Comment</th>
+    </tr>
     <c:forEach var="comment" items="${comments}">
         <tr>
             <td><c:out value="${comment.author}"></c:out></td>
             <td><c:out value="${comment.date}"></c:out></td>
+            <td><c:out value="${comment.time}"></c:out></td>
             <td><c:out value="${comment.comment}"></c:out></td>
         </tr>
     </c:forEach>
+    </tbody>
 </table>
 
 <form id="form" class="rounded" style="margin-top: 30px" method="post" action="#" onsubmit="return postComment()">

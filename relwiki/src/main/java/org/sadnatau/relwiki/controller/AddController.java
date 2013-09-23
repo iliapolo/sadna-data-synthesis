@@ -2,6 +2,7 @@ package org.sadnatau.relwiki.controller;
 
 import org.sadnatau.relwiki.data.PageDataStore;
 import org.sadnatau.relwiki.model.Page;
+import org.sadnatau.relwiki.transport.model.NewPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 /**
  *
@@ -34,15 +37,25 @@ public class AddController {
 
     /**
      *
-     * @param page
+     * @param newPage
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "add" , method = RequestMethod.POST)
     @ResponseBody
-    public final Page addPage(@RequestBody final Page page) throws Exception {
-        pagesDataProvider.add(page);
-        return page;
+    public final NewPage addPage(@RequestBody final NewPage newPage) throws Exception {
+
+        List<String> keywords = newPage.getKeywords();
+        for (String keyword : keywords) {
+            // for every keyword, create a page
+            Page page = new Page();
+            page.setAuthor(newPage.getAuthor());
+            page.setTitle(newPage.getTitle());
+            page.setKeyword(keyword);
+            page.setWikitext(newPage.getWikitext());
+            pagesDataProvider.add(page);
+        }
+        return newPage;
     }
 
 }
