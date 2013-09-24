@@ -145,6 +145,25 @@ public class PageDataStoreTest {
     }
 
     @Test
+    public void testGetPages() throws Exception {
+
+        PageDataStore dataStore = createDataStore();
+
+        Page page = new Page();
+        page.setTitle("title");
+        page.setAuthor("author");
+
+        dataStore.add(page);
+
+        Set<Page> author = dataStore.getPages("author");
+
+        Page next = author.iterator().next();
+        Assert.assertEquals("author", next.getAuthor());
+
+
+    }
+
+    @Test
     public void testGetAllKeywords() throws Exception {
 
         PageDataStore dataStore = createDataStore();

@@ -103,6 +103,12 @@ public class PageDataStore {
         return result;
     }
 
+    public Set<Page> getPages(String author) throws Exception {
+        Page template = new Page();
+        template.setAuthor(author);
+        return pageRelationalDataStore.query(template, Arrays.asList("title", "author"));
+    }
+
     public Set<String> getAllKeywords() throws Exception {
         Page pageTemplate = new Page();
         Set<Page> query =

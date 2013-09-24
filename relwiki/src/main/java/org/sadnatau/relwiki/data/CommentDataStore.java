@@ -26,15 +26,7 @@ public class CommentDataStore {
     public Set<Comment> getAll(final String title) throws Exception {
         Comment commentTemplate = new Comment();
         commentTemplate.setTitle(title);
-
-        // TODO - ask evgeny why this query doesnt not work when passing the 'title' in the result field
-        // see CommentDataStoreTest#testGetAllByTitle
-        Set<Comment> query =
-                commentRelationalDataStore.query(commentTemplate, Arrays.asList("author", "date", "time", "comment"));
-        for (Comment comment : query) {
-            comment.setTitle(title);
-        }
-        return query;
+        return commentRelationalDataStore.query(commentTemplate, Arrays.asList("author", "date", "time", "comment", "title"));
     }
 
     public Set<Comment> getAll() throws Exception {

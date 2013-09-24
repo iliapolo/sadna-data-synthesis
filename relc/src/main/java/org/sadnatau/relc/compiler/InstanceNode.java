@@ -6,6 +6,7 @@ import org.sadnatau.relc.data.PrimitiveDS;
 import org.sadnatau.relc.util.ToolBox;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -228,17 +229,23 @@ public class InstanceNode {
 
 	private List<List<String>> qlookup(List<String> theQuery, List<String> lookupKey, 
                                        KeyValueDataStructure<List<String>,InstanceNode> mapToLook) {
-		
-		List<List<String>> ret = new ArrayList<>();
+
+        List<List<String>> tmp = new ArrayList<List<String>>();
 		Collections.sort(lookupKey);
 		InstanceNode n = mapToLook.get(lookupKey);
 		if (n != null) {
 			//no need to keep key in theQuery, while querying its sub-graph.
 			List<String> updatedQuery = new ArrayList<>(theQuery);
 			updatedQuery.removeAll(lookupKey);
-			ret = n.queryNode(updatedQuery);
-		}
-		return ret;
+            List<List<String>> ret = n.queryNode(updatedQuery);
+
+            // add the key columns to all tuples found, if any.
+
+            for (List<String> tup : ret) {
+                tmp.add(ToolBox.margeTuples(lookupKey, tup));
+            }
+        }
+		return tmp;
 	}
 	
 	private List<List<String>> qjoin(List<String> theQuery) {

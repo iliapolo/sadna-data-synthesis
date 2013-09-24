@@ -51,12 +51,7 @@ public class EditDataStore {
         Edit template = new Edit();
         template.setRevision(revisionNumber);
         template.setTitle(title);
-        Set<Edit> query = editRelationalDataStore.query(template, Arrays.asList("lineNumber",
-                "addedOrRemoved", "text"));
-        for (Edit edit : query) {
-            edit.setRevision(revisionNumber);
-            edit.setTitle(title);
-        }
-        return query;
+        return editRelationalDataStore.query(template, Arrays.asList("lineNumber",
+                "addedOrRemoved", "text", "revision", "title"));
     }
 }

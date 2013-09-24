@@ -135,7 +135,7 @@ public class CompilerOutputCore implements DataProvider {
 
 		List<List<String>> tmp = this.root.queryNode(theQuery);
 		List<List<String>> ret = new ArrayList<List<String>>();
-
+        System.out.println(tmp);
 		for (List<String> tup : tmp) {
 			List<String> res = ToolBox.neededColValues(outputColNames, tup);
 			Collections.sort(res);
