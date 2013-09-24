@@ -10,8 +10,6 @@ import org.sadnatau.relwiki.utils.Utils;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-
 /**
  *
  * @author Eli Polonsky
@@ -42,9 +40,8 @@ public class CommentDataStoreFactoryBean implements FactoryBean<CommentDataStore
     public CommentDataStore getCommentDataStore() throws Exception {
         String relationPath = Utils.extractResource(RELATION_PATH, "relation.txt").getAbsolutePath();
         String decompositionPath = Utils.extractResource(DECOMPOSITIONS_PATH, "decompositions.txt").getAbsolutePath();
-        RelationalDataStore dataStore = new RelationalDataStore(relationPath, decompositionPath);
-        CommentDataStore commentDataStore = new CommentDataStore(dataStore);
-        return commentDataStore;
+        RelationalDataStore<Comment> dataStore = new RelationalDataStore<Comment>(relationPath, decompositionPath);
+        return new CommentDataStore(dataStore);
     }
 
     @Override

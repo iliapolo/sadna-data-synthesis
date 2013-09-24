@@ -126,6 +126,7 @@ public class CompilerOutputCore implements DataProvider {
 
             }
         }
+
 	}
 
 
@@ -179,14 +180,11 @@ public class CompilerOutputCore implements DataProvider {
 		}
 
         List<List<String>> toFind = query(matchingTuple, funcImageCols); // we request as the result img. columns.
-        System.out.println("removing " + matchingTuple);
-        System.out.println("toFind is  " + toFind);
         remove(matchingTuple);
 
         for (List<String> t : toFind) {
 				ToolBox.updateTuple(t, updateValues);
 				List<String> toInsert = ToolBox.setsUnion(matchingTuple, t);
-				System.out.println("inserting " + toInsert);
 				insert(toInsert);
 		}
 	}

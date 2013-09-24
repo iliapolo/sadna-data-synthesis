@@ -1,0 +1,26 @@
+table.revisions_table
+{
+    font-size:12px;
+    width:100%;
+    border-collapse: collapse;
+}
+table.revisions_table th
+{
+    font-size:12px;
+    color:#d4e3e5;
+    background-color:#222222;
+    padding: 8px;
+    border: 1px solid #fafafa;
+    text-align:left;
+}
+table.revisions_table tr
+{
+    background-color:#a9a9a9;
+    color:#222222;
+}
+table.revisions_table td
+{
+    font-size:12px;
+    padding: 8px;
+    border: 1px solid #fafafa;
+}

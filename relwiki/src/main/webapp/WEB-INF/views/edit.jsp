@@ -34,9 +34,9 @@
         <p class="hint">Enter your name.</p>
     </div>
     <div class="field">
-        <label for="edit_keyword">Keyword:</label>
-        <input id="edit_keyword" type="text" class="input"/>
-        <p class="hint">Enter keyword.</p>
+        <label for="edit_keywords">Keywords:</label>
+        <input id="edit_keywords" type="text" class="input"/>
+        <p class="hint">Enter keywords.</p>
     </div>
 
     <input type="submit" name="Submit"  class="button" value="Save" style="float: right; margin:10px 70px 10px 0;" />

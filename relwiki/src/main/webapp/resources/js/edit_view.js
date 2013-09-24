@@ -1,12 +1,14 @@
 function savePage() {
 
-    var pageTitle = document.getElementById('page_title').value;
+    var pageTitle = document.getElementById('page_title').innerText;
     var edit_author_name = document.getElementById('edit_author_name').value;
     var edit_content = document.getElementById('page_content').value;
+    var edit_keywords = document.getElementById('edit_keywords').value;
 
     var pageEdit = {
-        "author" : edit_author_name,
-        "content" : edit_content
+        "currentText": edit_content,
+        "author": edit_author_name,
+        "keywords": edit_keywords.trim().split(",")
     }
 
     var jsonPageEdit = JSON.stringify(pageEdit);
@@ -21,8 +23,10 @@ function savePage() {
         data: jsonPageEdit,
         success: function(data) {
 
-            // clear the name input
+            // clear the name and keywords input
             document.getElementById('edit_author_name').value = "";
+            document.getElementById('edit_keywords').value = "";
+            alert("Page updated successfully")
 
         },
         dataType: 'json',

@@ -1,9 +1,44 @@
 [
     {
+        "revision": 1,
+        "title": "Union Square, Boston",
+        "lineNumber": 1,
+        "addedOrRemoved": "added",
+        "text": "Union Square is located in the Allston neighborhood of Boston, Massachusetts at the intersection of Cambridge Street and Brighton Avenue/North Beacon Street."
+    },
+    {
+        "revision": 1,
+        "title": "Union Square, Boston",
+        "lineNumber": 2,
+        "addedOrRemoved": "added",
+        "text": "Union Square is serviced by the MBTA 66 and 57 buses."
+    },
+    {
+        "revision": 2,
+        "title": "Union Square, Boston",
+        "lineNumber": 2,
+        "addedOrRemoved": "Removed",
+        "text": "Union Square is serviced by the MBTA 66 and 57 buses."
+    },
+    {
         "revision": 2,
         "title": "Union Square, Boston",
         "lineNumber": 2,
         "addedOrRemoved": "added",
-        "text": "Union Square, Allston is often confused with Union Square, Somerville. The Union Square in Somerville is a more well known area which is 3 miles away and an entirely different neighborhood"
+        "text": "Union Square, Allston is often confused with Union Square, Somerville. The Union Square in Somerville is a more well known area which is 3 miles away and an entirely different neighborhood."
+    },
+    {
+        "revision": 1,
+        "title": "HSBC Bank International",
+        "lineNumber": 1,
+        "addedOrRemoved": "added",
+        "text": "HSBC Bank International Limited is the offshore banking arm of the HSBC Group and is wholly owned by HSBC Bank plc, focusing on providing offshore solutions and cross border services to expatriates and migrants."
+    },
+    {
+        "revision": 1,
+        "title": "Noble Energy",
+        "lineNumber": 1,
+        "addedOrRemoved": "added",
+        "text": "Noble Energy, Inc. of Houston, Texas, United States is the modern name of Noble Affiliates Inc., by which it was known through the 1990s, and it is now an oil and natural gas exploration and production company with almost US$3 billion in revenue at #660 on the 2007 Fortune 1000 list of the largest American companies."
     }
 ]

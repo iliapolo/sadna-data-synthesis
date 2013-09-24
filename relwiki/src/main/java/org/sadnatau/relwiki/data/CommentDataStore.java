@@ -15,7 +15,7 @@ public class CommentDataStore {
 
     private RelationalDataStore<Comment> commentRelationalDataStore;
 
-    public CommentDataStore(final RelationalDataStore dataStore) {
+    public CommentDataStore(final RelationalDataStore<Comment> dataStore) {
         this.commentRelationalDataStore = dataStore;
     }
 

@@ -11,6 +11,6 @@ public class EditDataStoreFactoryBeanTest {
 
     @Test
     public void testGetObject() throws Exception {
-        new EditDataStoreFactoryBean().getObject();
+        new EditDataStoreFactoryBean().getEditDataStore();
     }
 }

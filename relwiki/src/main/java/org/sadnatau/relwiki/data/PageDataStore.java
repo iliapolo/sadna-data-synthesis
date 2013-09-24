@@ -4,7 +4,9 @@ import org.sadnatau.data.RelationalDataStore;
 import org.sadnatau.relwiki.model.Page;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -16,7 +18,7 @@ public class PageDataStore {
 
     private RelationalDataStore<Page> pageRelationalDataStore;
 
-    public PageDataStore(final RelationalDataStore dataStore) {
+    public PageDataStore(final RelationalDataStore<Page> dataStore) {
         this.pageRelationalDataStore = dataStore;
     }
 
@@ -121,5 +123,15 @@ public class PageDataStore {
             pageAuthors.add(page.getAuthor()) ;
         }
         return pageAuthors;
+    }
+
+    public void updateWikiText(String title, String newText) throws Exception {
+        Map<String, Object> updates = new HashMap<String, Object>();
+        updates.put("wikitext", newText);
+
+        Page template = new Page();
+        template.setTitle(title);
+        pageRelationalDataStore.update(template, updates);
+
     }
 }

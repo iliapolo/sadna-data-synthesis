@@ -58,6 +58,9 @@ function query(anchor, type) {
     }
 }
 
+function getHistory() {
+    window.location.href="./history/" + getParameterByName("title");
+}
 function getComments() {
     window.location.href="./comments/" + getParameterByName("title");
 }

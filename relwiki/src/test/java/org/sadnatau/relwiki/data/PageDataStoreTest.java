@@ -190,6 +190,33 @@ public class PageDataStoreTest {
 
     }
 
+    @Test
+    public void testUpdateWikiText() throws Exception {
+
+        PageDataStore dataStore = createDataStore();
+
+        Page page = new Page();
+        page.setTitle("title");
+        page.setWikitext("wikitext");
+
+        Page page1 = new Page();
+        page1.setTitle("title1");
+        page1.setWikitext("wikitext1");
+
+        dataStore.add(page);
+        dataStore.add(page1);
+
+        dataStore.updateWikiText("title", "wikitextupdated");
+
+        // check for update of page with title 'title'
+        Assert.assertEquals("wikitextupdated", dataStore.getWikiText("title"));
+
+        // check the update didnt affect the other page
+        Assert.assertEquals("wikitext1", dataStore.getWikiText("title1"));
+
+
+    }
+
     private PageDataStore createDataStore() throws Exception {
         PageDataStoreFactoryBean bean = new PageDataStoreFactoryBean();
         PageDataStore dataStore = bean.getPageDataStore();

@@ -40,8 +40,7 @@ public class PageDataStoreFactoryBean implements FactoryBean<PageDataStore> {
     public PageDataStore getPageDataStore() throws Exception {
         String relationPath = Utils.extractResource(RELATION_PATH, "relation.txt").getAbsolutePath();
         String decompositionPath = Utils.extractResource(DECOMPOSITIONS_PATH, "decompositions.txt").getAbsolutePath();
-        RelationalDataStore dataStore = new RelationalDataStore(relationPath, decompositionPath);
-
+        RelationalDataStore<Page> dataStore = new RelationalDataStore<Page>(relationPath, decompositionPath);
         return new PageDataStore(dataStore);
     }
 

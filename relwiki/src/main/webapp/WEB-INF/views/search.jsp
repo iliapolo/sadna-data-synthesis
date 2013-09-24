@@ -80,7 +80,7 @@
         </div>
         <div id="page_options" style="margin-top: 10px">
             <a href="javascript:getEdit()" class="button edit">edit</a>
-            <a href="" class="button">history</a>
+            <a href="javascript:getHistory()" class="button">history</a>
             <a href="javascript:getComments()" class="button">comments</a>
         </div>
     </div>
