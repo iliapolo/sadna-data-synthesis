@@ -1,11 +1,11 @@
-package org.sadnatau.classloading;
+package org.sadnatau.bridge.classloading;
 
 import com.google.common.io.Resources;
 import org.apache.commons.io.FileUtils;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.sadnatau.compiler.JavacCompiler;
+import org.sadnatau.bridge.compiler.JavacCompiler;
 import org.sadnatau.relc.data.DataProvider;
 
 import java.io.File;
@@ -21,8 +21,8 @@ public class DataProviderClassLoaderTest {
 
     private static final String RANDOM_USER_HOME = System.getProperty("user.home") + "/" + UUID.randomUUID();
     private static final String FILE_NAME = "ForTest";
-    private static final String FOR_TEST = "org/sadnatau/classloading/" + FILE_NAME;
-    private static final String PACKAGE = "org.sadnatau.compiler";
+    private static final String FOR_TEST = "org/sadnatau/bridge/classloading/" + FILE_NAME;
+    private static final String PACKAGE = "org.sadnatau.bridge.compiler";
 
     @BeforeClass
     public static void compile() throws IOException, InterruptedException {

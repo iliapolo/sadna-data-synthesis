@@ -1,4 +1,4 @@
-package org.sadnatau.data;
+package org.sadnatau.bridge.data;
 
 import com.google.common.io.Resources;
 import org.junit.Assert;
@@ -17,8 +17,8 @@ import java.util.Set;
  */
 public class RelationalDataStoreTest {
 
-    private static final String RELATION = "org/sadnatau/data/relation.txt";
-    private static final String DECOMPOSITIONS = "org/sadnatau/data/decompositions.txt";
+    private static final String RELATION = "org/sadnatau/bridge/data/relation.txt";
+    private static final String DECOMPOSITIONS = "org/sadnatau/bridge/data/decompositions.txt";
 
     @Test
     public void testQuery() throws Exception {

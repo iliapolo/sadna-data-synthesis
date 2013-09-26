@@ -3,12 +3,16 @@ package org.sadnatau.relwiki.beans;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import org.sadnatau.data.RelationalDataStore;
+import org.sadnatau.bridge.data.RelationalDataStore;
 import org.sadnatau.relwiki.data.CommentDataStore;
 import org.sadnatau.relwiki.model.Comment;
 import org.sadnatau.relwiki.utils.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.stereotype.Component;
+
+import java.net.URL;
 
 /**
  *
@@ -18,6 +22,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommentDataStoreFactoryBean implements FactoryBean<CommentDataStore> {
 
+    private Logger logger = LoggerFactory.getLogger(CommentDataStoreFactoryBean.class);
+
     private static final String RELATION_PATH = "comment/relation.txt";
     private static final String DECOMPOSITIONS_PATH = "comment/decompositions.txt";
     private static final String DATA = "comment/data.json";
@@ -25,12 +31,16 @@ public class CommentDataStoreFactoryBean implements FactoryBean<CommentDataStore
     @Override
     public CommentDataStore getObject() throws Exception {
 
+        logger.debug("Creating a relational data store for object [" + Comment.class + "]");
+
         CommentDataStore commentDataStore = getCommentDataStore();
         commentDataStore.empty();
 
-        // load the store with initial data
+        URL resource = Resources.getResource(DATA);
+        logger.debug("Loading store with initial data from resource " + resource);
+
         Comment[] comments = new ObjectMapper()
-                .readValue(Resources.toString(Resources.getResource(DATA), Charsets.UTF_8), Comment[].class);
+                .readValue(Resources.toString(resource, Charsets.UTF_8), Comment[].class);
         for (Comment comment : comments) {
             commentDataStore.add(comment);
         }

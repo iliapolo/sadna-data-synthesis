@@ -3,6 +3,8 @@ package org.sadnatau.relwiki.controller;
 import org.sadnatau.relwiki.data.PageDataStore;
 import org.sadnatau.relwiki.model.Page;
 import org.sadnatau.relwiki.transport.model.NewPage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +24,8 @@ import java.util.List;
 @Controller
 @SessionAttributes
 public class AddController {
+
+    private Logger logger = LoggerFactory.getLogger(AddController.class);
 
     @Autowired
     private PageDataStore pagesDataProvider;
@@ -44,6 +48,8 @@ public class AddController {
     @RequestMapping(value = "add" , method = RequestMethod.POST)
     @ResponseBody
     public final NewPage addPage(@RequestBody final NewPage newPage) throws Exception {
+
+        logger.debug("Adding a new page : " + newPage);
 
         List<String> keywords = newPage.getKeywords();
         for (String keyword : keywords) {

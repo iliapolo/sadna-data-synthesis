@@ -5,6 +5,8 @@ import org.sadnatau.relwiki.data.PageDataStore;
 import org.sadnatau.relwiki.model.Edit;
 import org.sadnatau.relwiki.transport.model.Change;
 import org.sadnatau.relwiki.transport.model.Revision;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,8 @@ import java.util.Set;
 @SessionAttributes
 public class HistoryController {
 
+    private Logger logger = LoggerFactory.getLogger(HistoryController.class);
+
     @Autowired
     private PageDataStore pagesDataProvider;
 
@@ -36,6 +40,8 @@ public class HistoryController {
 
     @RequestMapping(value = "history/{title}" , method = RequestMethod.GET)
     public ModelAndView history(@PathVariable("title") final String title) throws Exception {
+
+        logger.debug("Showing revision history for page " + title);
 
         Set<String> authors = pagesDataProvider.getAuthors(title);
 

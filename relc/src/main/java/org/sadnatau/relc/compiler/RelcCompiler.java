@@ -4,6 +4,8 @@ import com.google.common.io.Resources;
 import org.sadnatau.relc.data.PrimitiveDS;
 import org.sadnatau.relc.util.SyntaxError;
 import org.sadnatau.relc.util.ToolBox;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -27,6 +29,8 @@ import java.util.regex.Pattern;
  * 
  */
 public class RelcCompiler {
+
+    private Logger logger = LoggerFactory.getLogger(RelcCompiler.class);
 
     private static final String USER_HOME = System.getProperty("user.home");
 
@@ -61,9 +65,9 @@ public class RelcCompiler {
 
 		this.relFilePath = relFilePath;
 		this.decompFilePath = decompFilePath;
-		this.columns = new ArrayList<String>();
-		this.funcDomainCols = new ArrayList<String>();
-		this.funcImageCols = new ArrayList<String>();
+		this.columns = new ArrayList<>();
+		this.funcDomainCols = new ArrayList<>();
+		this.funcImageCols = new ArrayList<>();
 		this.decompGraph = new DecompositionGraph();
 
 		parseColumnsAndFunction();
@@ -155,7 +159,7 @@ public class RelcCompiler {
                 writer.write(line + "\r\n");
                 line = reader.readLine();
             }
-            System.out.println("Compiled java code to " + outputFilePath);
+            logger.info("Successfully compiled Java file --> " + outputFile.getAbsolutePath());
         } finally {
             try {
                 if (writer != null) {
@@ -189,6 +193,8 @@ public class RelcCompiler {
 
     // parses set of columns and function file.
     private void parseColumnsAndFunction() throws SyntaxError, IOException {
+
+        logger.info("Parsing relations file");
 
         BufferedReader reader = null;
 
@@ -244,6 +250,9 @@ public class RelcCompiler {
 
     // parses the decomposition graph file.
     private void parseDecompGraph() throws SyntaxError, IOException {
+
+        logger.info("Parsing decomposition graph");
+
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(decompFilePath));

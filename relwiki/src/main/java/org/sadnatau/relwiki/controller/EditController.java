@@ -7,6 +7,8 @@ import org.sadnatau.relwiki.model.Page;
 import org.sadnatau.relwiki.transport.model.Change;
 import org.sadnatau.relwiki.transport.model.PageEdit;
 import org.sadnatau.relwiki.utils.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +31,8 @@ import java.util.Set;
 @Controller
 @SessionAttributes
 public class EditController {
+
+    private Logger logger = LoggerFactory.getLogger(EditController.class);
 
     @Autowired
     private PageDataStore pagesDataProvider;
@@ -53,6 +57,8 @@ public class EditController {
     @ResponseBody
     public Page savePage(@PathVariable("title") final String title,
                          @RequestBody final PageEdit pageEdit) throws Exception {
+
+        logger.debug("Updaing page " + title + " with new data : " + pageEdit);
 
         String existingText = pagesDataProvider.getWikiText(title);
         String currentText = pageEdit.getCurrentText();

@@ -1,4 +1,4 @@
-package org.sadnatau.compiler;
+package org.sadnatau.bridge.compiler;
 
 import com.google.common.base.Preconditions;
 

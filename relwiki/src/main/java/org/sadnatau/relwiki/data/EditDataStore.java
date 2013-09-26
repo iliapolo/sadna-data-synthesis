@@ -1,6 +1,6 @@
 package org.sadnatau.relwiki.data;
 
-import org.sadnatau.data.RelationalDataStore;
+import org.sadnatau.bridge.data.RelationalDataStore;
 import org.sadnatau.relwiki.model.Edit;
 
 import java.util.Arrays;

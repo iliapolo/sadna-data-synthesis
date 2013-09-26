@@ -1,4 +1,4 @@
-package org.sadnatau.data;
+package org.sadnatau.bridge.data;
 
 import org.apache.commons.beanutils.PropertyUtils;
 

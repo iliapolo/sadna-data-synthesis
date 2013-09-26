@@ -1,4 +1,4 @@
-package org.sadnatau.classloading;
+package org.sadnatau.bridge.classloading;
 
 import com.google.common.base.Throwables;
 import org.sadnatau.relc.data.DataProvider;

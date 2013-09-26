@@ -3,6 +3,8 @@ package org.sadnatau.relwiki.controller;
 import org.sadnatau.relwiki.data.PageDataStore;
 import org.sadnatau.relwiki.model.Page;
 import org.sadnatau.relwiki.utils.Utils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,8 @@ import java.util.Set;
 @SessionAttributes
 public class SearchController {
 
+    private Logger logger = LoggerFactory.getLogger(SearchController.class);
+
     @Autowired
     private PageDataStore pagesDataProvider;
 
@@ -46,6 +50,8 @@ public class SearchController {
     public ModelAndView search(@RequestParam(defaultValue = "") final List<String> keywords,
                                @RequestParam(defaultValue = "") final List<String> authors,
                                @RequestParam(defaultValue = "") final String title) throws Exception {
+
+        logger.debug("Requested a search criteria of " + keywords + ";" + authors + ";" + title);
 
         // in case page was found.
         Set<String> pageAuthors = null;

@@ -1,11 +1,13 @@
-package org.sadnatau.data;
+package org.sadnatau.bridge.data;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.sadnatau.classloading.DataProviderClassLoader;
-import org.sadnatau.compiler.JavacCompiler;
+import org.sadnatau.bridge.classloading.DataProviderClassLoader;
+import org.sadnatau.bridge.compiler.JavacCompiler;
 import org.sadnatau.relc.compiler.RelcCompilationResult;
 import org.sadnatau.relc.compiler.RelcCompiler;
 import org.sadnatau.relc.data.DataProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -24,6 +26,8 @@ import java.util.Set;
  */
 public class RelationalDataStore<T> implements DataStore<T> {
 
+    private Logger logger = LoggerFactory.getLogger(RelationalDataStore.class);
+
     private DataProvider dataProvider;
 
     /**
@@ -35,7 +39,7 @@ public class RelationalDataStore<T> implements DataStore<T> {
     public RelationalDataStore(final String relationsPath,
                                final String decompositionsPath) throws Exception {
 
-        System.out.println("Creating a RelcCompiler from files [" + relationsPath + "," + decompositionsPath + "]");
+        logger.debug("Creating a RelcCompiler from files [" + relationsPath + "," + decompositionsPath + "]");
         RelcCompiler relcCompiler = new RelcCompiler(relationsPath, decompositionsPath);
         this.dataProvider = createDataProvider(relcCompiler);
     }
@@ -43,7 +47,7 @@ public class RelationalDataStore<T> implements DataStore<T> {
     private DataProvider createDataProvider(final RelcCompiler relcCompiler) throws Exception {
 
         // this created a java file
-        System.out.println("Compiling decomposition graph to java code");
+        logger.debug("Compiling decomposition graph to Java");
         RelcCompilationResult compilationResult = relcCompiler.compile();
 
         // compile to bytecode
@@ -55,7 +59,7 @@ public class RelationalDataStore<T> implements DataStore<T> {
 
         URL relc = this.getClass().getClassLoader().getResource("org/sadnatau/relc");
         JavacCompiler javacCompiler = new JavacCompiler(relc);
-        System.out.println("Compiling java code from file " + javaFilePath + " to bytecode");
+        logger.debug("Compiling Bytecode from Java file " + javaFilePath);
         javacCompiler.compile(javaFilePath);
 
         return DataProviderClassLoader.load(compilationResult.getCompiledFileRoot(), compilationResult.getPackageName() + "." +
@@ -66,10 +70,10 @@ public class RelationalDataStore<T> implements DataStore<T> {
     public Set<T> query(T template, List<String> resultFields) throws Exception {
 
         Set<T> result = new HashSet<>();
-
         List<String> relcQuery = DataModelQueryGenerator.generate(template);
-
         List<List<String>> query = dataProvider.query(relcQuery, resultFields);
+
+        logger.debug("Performing query on " + dataProvider + " : " + query);
 
         for (List<String> tuple : query) {
 
@@ -92,6 +96,9 @@ public class RelationalDataStore<T> implements DataStore<T> {
 
     @Override
     public void insert(T data) throws Exception {
+
+        logger.debug("Inserting " + data + " to" + dataProvider);
+
         List<String> tupleValues = new ArrayList<>();
 
         for (Field field : data.getClass().getDeclaredFields()) {
@@ -104,13 +111,14 @@ public class RelationalDataStore<T> implements DataStore<T> {
 
     @Override
     public void remove(T template) throws Exception {
+        logger.debug("Removing " + template + " from" + dataProvider);
         List<String> tuple = DataModelQueryGenerator.generate(template);
         dataProvider.remove(tuple);
     }
 
     @Override
     public void update(T matchingData, Map<String, Object> fieldsToUpdate) throws Exception {
-
+        logger.debug("Updating " + matchingData + " of " + dataProvider + " with " + fieldsToUpdate);
         List<String> matchingTuple = DataModelQueryGenerator.generate(matchingData);
 
         List<String> updatedValues = new ArrayList<>();
@@ -124,6 +132,7 @@ public class RelationalDataStore<T> implements DataStore<T> {
 
     @Override
     public void empty() {
+        logger.debug("Clearing and initializing " + dataProvider);
         dataProvider.empty();
     }
 }

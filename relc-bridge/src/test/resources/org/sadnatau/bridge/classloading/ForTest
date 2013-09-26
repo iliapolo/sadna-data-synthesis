@@ -1,4 +1,4 @@
-package org.sadnatau.compiler;
+package org.sadnatau.bridge.compiler;
 
 import org.sadnatau.relc.data.DataProvider;
 import org.sadnatau.relc.util.SemanticError;

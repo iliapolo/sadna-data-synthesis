@@ -45,4 +45,14 @@ public class NewPage {
     public void setKeywords(List<String> keywords) {
         this.keywords = keywords;
     }
+
+    @Override
+    public String toString() {
+        return "NewPage{" +
+                "title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", wikitext='" + wikitext + '\'' +
+                ", keywords=" + keywords +
+                '}';
+    }
 }

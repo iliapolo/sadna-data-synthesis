@@ -3,6 +3,8 @@ package org.sadnatau.relwiki.controller;
 import org.sadnatau.relwiki.data.CommentDataStore;
 import org.sadnatau.relwiki.data.PageDataStore;
 import org.sadnatau.relwiki.model.Comment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +29,8 @@ import java.util.Set;
 @Controller
 @SessionAttributes
 public class CommentController {
+
+    private Logger logger = LoggerFactory.getLogger(CommentController.class);
 
     @Autowired
     private PageDataStore pagesDataProvider;
@@ -55,6 +59,7 @@ public class CommentController {
     @ResponseBody
     public Comment postComment(@RequestBody final Comment comment,
                                @PathVariable("title") final String title) throws Exception {
+        logger.debug("Adding a new comment to page " + title + " : " + comment);
         commentDataProvider.add(comment);
         return comment;
     }
