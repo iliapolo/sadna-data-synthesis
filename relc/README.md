@@ -1,7 +1,7 @@
 Relational Data Compiler
 ========================
 
-This compiler accepts to inputs:
+This compiler accepts two inputs:
 
 * 1. [Relations file](src/test/resources/org/sadnatau/relc/compiler/relation.txt) - this file describes the funtional dependencie of the specific data.
 * 2. [Decomposition graph file](src/test/resources/org/sadnatau/relc/compiler/decomp.txt) - this file describes the decomposition graph on the given data.
