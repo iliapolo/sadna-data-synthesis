@@ -1,7 +1,7 @@
 Relational Data Wikipedia
 =========================
 
-This project is a Spring MVC web application based on JSP for html redndering.
+This project is a Spring MVC web application based on JSP for html rendering.
 
 It uses the [relc-brige](../relc-bridge) for data operations.
 
