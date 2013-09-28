@@ -1,8 +1,8 @@
-x: y<title | htable>; a<revision |  htable>
-y: z<revision | htable>
-z: w<addedOrRemoved | list>
-w: d<lineNumber | list>
-a: b<title | htable>
-b: c<addedOrRemoved | list>
-c: d<lineNumber | list>
-d: text
+v1: v2<title | htable>; v5<revision |  htable>
+v2: v3<revision | htable>
+v3: v4<addedOrRemoved | list>
+v4: v8<lineNumber | list>
+v5: v6<title | htable>
+v6: v7<addedOrRemoved | list>
+v7: v8<lineNumber | list>
+v8: text

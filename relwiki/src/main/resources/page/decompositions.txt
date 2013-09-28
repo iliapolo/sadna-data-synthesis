@@ -1,6 +1,6 @@
-x: y<author | htable>; a<title | htable>; w<keyword | htable>
-y: z<keyword | htable>
-z: b<title | list>
-w: b<title | list>
-a: b<keyword | list>
-b: title, wikitext
+v1: v2<author | htable>; v5<title | htable>; v4<keyword | htable>
+v2: v3<keyword | htable>
+v3: v6<title | list>
+v4: v6<title | list>
+v5: v6<keyword | list>
+v6: title, wikitext
