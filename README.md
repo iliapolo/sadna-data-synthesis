@@ -4,6 +4,7 @@ Data Synthesis Workshop
 This repository is a result of the final project in "Data Synthesis Representation" course.
 
 - Given at Tel-Aviv University in the fall semester of 2013
+- Submission by Yevgeny Levanzov, Eli Polonsky and Daniel Samuelov
 
 It consists out of 3 projects:
 
