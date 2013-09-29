@@ -15,5 +15,5 @@ This compiler accepts two inputs:
     String compiledFileName = compilationResult.getCompiledFileName()
     String compiledFileRoot = compilationResult.getCompiledFileRoot()
 
-The output Java file is an implementation of the [DataProvider](src/main/java/org/sadnatau/relc/data/DataProvider.java) interface optimized for the specific relation and decomposition graph.
+The output Java file is an implementation of the [DataProvider](src/main/java/org/sadnatau/relc/data/DataProvider.java) interface for the specific relation and decomposition graph.
 
