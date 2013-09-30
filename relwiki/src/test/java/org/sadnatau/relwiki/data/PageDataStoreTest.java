@@ -216,10 +216,14 @@ public class PageDataStoreTest {
 
         Page page = new Page();
         page.setTitle("title");
+        page.setAuthor("a");
+        page.setKeyword("k");
         page.setWikitext("wikitext");
 
         Page page1 = new Page();
         page1.setTitle("title1");
+        page1.setAuthor("b");
+        page1.setKeyword("g");
         page1.setWikitext("wikitext1");
 
         dataStore.add(page);

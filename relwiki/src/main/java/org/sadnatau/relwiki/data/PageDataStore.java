@@ -61,6 +61,10 @@ public class PageDataStore {
         // this should give us one result since page content is identical for all entries.
         Page pageTemplate = new Page();
         pageTemplate.setTitle(title);
+        String author = getAuthors(title).iterator().next();
+        String keyword = getKeywords(title).iterator().next();
+        pageTemplate.setAuthor(author);
+        pageTemplate.setKeyword(keyword);
 
         Set<Page> pages = pageRelationalDataStore.query(pageTemplate, Arrays.asList("wikitext"));
         return pages.iterator().next().getWikitext();
@@ -135,9 +139,18 @@ public class PageDataStore {
         Map<String, Object> updates = new HashMap<String, Object>();
         updates.put("wikitext", newText);
 
-        Page template = new Page();
-        template.setTitle(title);
-        pageRelationalDataStore.update(template, updates);
+        Set<String> authors = getAuthors(title);
+        Set<String> keywords = getKeywords(title);
+        for (String author : authors) {
+            // create a page for every title, author, keyword combination
+            for (String keyword : keywords) {
+                Page template = new Page();
+                template.setTitle(title);
+                template.setAuthor(author);
+                template.setKeyword(keyword);
+                pageRelationalDataStore.update(template, updates);
+            }
 
+        }
     }
 }

@@ -58,8 +58,8 @@ public interface DataProvider {
     void remove(final List<String> tuple) throws SemanticError;
 
     /**
-     * Updates all tuples matching the matchingTuple with updates specified in updateValues.<br>
-     * Note : The matching tuple must only contain the keys of the relation as specified in the relation file.<br>
+     * Updates the tuple matching the matchingTuple with updates specified in updateValues.<br>
+     * Note : The matching tuple must contain all the keys of the relation as specified in the relation file.<br>
      *
      * @param matchingTuple The matching criteria.
      * @param updateValues The new values.

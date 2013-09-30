@@ -182,7 +182,7 @@ public class CompilerOutputCore implements DataProvider {
         //semantic checks.
         nullRoot();  //throws exception iff root is null.
 
-        if (theQuery.isEmpty() || outputColNames.isEmpty()) {
+        if (outputColNames.isEmpty()) {
             throw new SemanticError("Query matching tuple or output columns names can't be empty.");
         }
 
