@@ -2,6 +2,7 @@ package org.sadnatau.relc.compiler;
 
 import com.google.common.io.Resources;
 import org.sadnatau.relc.data.PrimitiveDS;
+import org.sadnatau.relc.util.SemanticError;
 import org.sadnatau.relc.util.SyntaxError;
 import org.sadnatau.relc.util.ToolBox;
 import org.slf4j.Logger;
@@ -16,8 +17,12 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,7 +66,7 @@ public class RelcCompiler {
 	
 	
 	public RelcCompiler(final String relFilePath,
-                        final String decompFilePath) throws SyntaxError, IOException {
+                        final String decompFilePath) throws SyntaxError, IOException , SemanticError {
 
 		this.relFilePath = relFilePath;
 		this.decompFilePath = decompFilePath;
@@ -72,6 +77,7 @@ public class RelcCompiler {
 
 		parseColumnsAndFunction();
 		parseDecompGraph();
+        semanticAndAdequacyChecks();
 	}
 
     // creates the output java code file.
@@ -145,6 +151,7 @@ public class RelcCompiler {
                     "\t\tthis.decompositionSerializationFilePath = " +
                     '"' + serializedGraphFilePath + "\";" + nl +
                     "\t\tthis.cols = " + "\"" + cols + "\";" + nl +
+                    "\t\tthis.root = null;" + nl +
                     "\t\tthis.funDomCols = " + "\"" + funDomCols + "\";" + nl +
                     "\t\tthis.funImgCols = " + "\"" + funImgCols + "\";" + nl +
                     "\t\t" + "initColumnsAndFunction();" + nl +
@@ -192,7 +199,7 @@ public class RelcCompiler {
 	}
 
     // parses set of columns and function file.
-    private void parseColumnsAndFunction() throws SyntaxError, IOException {
+    private void parseColumnsAndFunction() throws SyntaxError, IOException , SemanticError {
 
         logger.info("Parsing relations file");
 
@@ -318,6 +325,77 @@ public class RelcCompiler {
             v.addAdj(e);
         }
         this.decompGraph.addVertex(v);
+    }
+
+
+    //semantic and adequacy checks for input.
+    private void semanticAndAdequacyChecks() throws SemanticError {
+
+        if (!ToolBox.isSubSet(funcDomainCols, columns) || !ToolBox.isSubSet(funcImageCols, columns)) {
+            throw new SemanticError("Function's domain and image columns must be a sub-set of relational columns.");
+        }
+
+        List<String> union = ToolBox.setsUnion(this.funcDomainCols, this.funcImageCols);
+        Collections.sort(union);
+        Collections.sort(columns);
+
+        if (!ToolBox.isDisjointSets(funcDomainCols, funcImageCols) && !union.equals(columns)) {
+
+            throw new SemanticError("Function's domain and image columns must be disjoint sets " +
+                    "and their union should be all relational columns.");
+        }
+
+
+        /////////////////////////////////////////////
+
+        //checking if decomp. graph is DAG.
+
+        Iterator<DecompositionGraph.Vertex> itr = this.decompGraph.iterator();
+        if (itr == null) {
+            throw new SemanticError("Decomposition graph isn't DAG.");
+        }
+
+        //checking if graph has single root.
+        List<String> vertNames = new ArrayList<String>();  //all vertices.
+
+        for (DecompositionGraph.Vertex v : this.decompGraph) {
+            vertNames.add(v.getName());
+        }
+
+        //now we remove all vertices with in-degree > 0.
+        for (DecompositionGraph.Vertex v : this.decompGraph) {
+            for (DecompositionGraph.Edge e : v.getAdjList()) {
+                vertNames.remove(e.getDestVertName());
+            }
+        }
+
+        if (vertNames.size() > 1) {
+            throw new SemanticError("Decomposition graph has more than one root.");
+        }
+
+        //check that all columns are represented.
+        Set<String> cols = new TreeSet<String>();
+
+        for (DecompositionGraph.Vertex v : this.decompGraph) {
+
+            if (v.isSinkVertex()) {
+                cols.addAll(v.getSinkColsNames());
+                continue;
+            }
+
+            for (DecompositionGraph.Edge e : v.getAdjList()) {
+                cols.addAll(e.getCols());
+            }
+        }
+
+        if (cols.size() != this.columns.size()) {
+            throw new SemanticError("Not all columns represented in decomposition graph.");
+        }
+
+        //checking that root isn't a unit decomposition.
+        if (this.decompGraph.iterator().next().isSinkVertex()) {
+            throw new SemanticError("Root of decomposition graph can't be a unit decomposition.");
+        }
     }
 
 

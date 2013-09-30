@@ -71,9 +71,9 @@ public class RelationalDataStore<T> implements DataStore<T> {
 
         Set<T> result = new HashSet<>();
         List<String> relcQuery = DataModelQueryGenerator.generate(template);
+        logger.debug("Performing query on " + dataProvider + " : " + relcQuery);
         List<List<String>> query = dataProvider.query(relcQuery, resultFields);
 
-        logger.debug("Performing query on " + dataProvider + " : " + query);
 
         for (List<String> tuple : query) {
 

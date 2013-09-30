@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -18,96 +19,125 @@ import java.util.List;
  */
 public class CompilerOutputCore implements DataProvider {
 
-	private String decompositionSerializationFilePath;
-	private String cols;
-	private String funDomCols;
-	private String funImgCols;
+    // init. data.
+    private String decompositionSerializationFilePath;
+    private String cols;
+    private String funDomCols;
+    private String funImgCols;
 
-	// set of columns.
-	private List<String> columns;
+    // set of columns.
+    private List<String> columns;
 
-	// set of columns of domain of relation spec. function.
-	private List<String> funcDomainCols;
+    // set of columns of domain of relation spec. function.
+    private List<String> funcDomainCols;
 
-	// set of columns of image of relation spec. function.
-	private List<String> funcImageCols;
+    // set of columns of image of relation spec. function.
+    private List<String> funcImageCols;
 
-	// the decomposition graph.s
-	private DecompositionGraph decompGraph;
+    // the decomposition graph.s
+    private DecompositionGraph decompGraph;
 
-	// root of decomposition instance.
-	private InstanceNode root;
+    // root of decomposition instance.
+    private InstanceNode root;
 
 
-	/**
-	 *
-	 * Default constructor.
-	 *
-	 */
+    /**
+     *
+     * Default constructor.
+     *
+     */
 
-	// filling columns list and lists of fun. domain and image columns.
-	private void initColumnsAndFunction() {
+    // filling columns list and lists of fun. domain and image columns.
+    private void initColumnsAndFunction() {
 
-		this.columns = new ArrayList<String>();
-		String[] arr = this.cols.split(",");
+        this.columns = new ArrayList<String>();
+        String[] arr = this.cols.split(",");
         Collections.addAll(this.columns, arr);
 
-		this.funcDomainCols = new ArrayList<String>();
-		arr = this.funDomCols.split(",");
+        this.funcDomainCols = new ArrayList<String>();
+        arr = this.funDomCols.split(",");
         Collections.addAll(this.funcDomainCols, arr);
 
-		this.funcImageCols = new ArrayList<String>();
-		arr = this.funImgCols.split(",");
+        this.funcImageCols = new ArrayList<String>();
+        arr = this.funImgCols.split(",");
         Collections.addAll(this.funcImageCols, arr);
 
-	}
+    }
 
-	// filling decomposition graph using serialization.
-	private void initDecompositionGraph() throws IOException, ClassNotFoundException {
+    // filling decomposition graph using serialization.
+    private void initDecompositionGraph() throws IOException, ClassNotFoundException {
 
-		ObjectInputStream in = null;
-		try {
-			in = new ObjectInputStream(new FileInputStream(this.decompositionSerializationFilePath));
-			this.decompGraph = ((DecompositionGraph) (in.readObject()));
-			in.close();
-		} finally {
-			try {
-				if (in != null) {
-					in.close();
-				}
+        ObjectInputStream in = null;
+        try {
+            in = new ObjectInputStream(new FileInputStream(this.decompositionSerializationFilePath));
+            this.decompGraph = ((DecompositionGraph) (in.readObject()));
+            in.close();
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
 
-			} catch (IOException e) {
-				// ignore
-			}
-		}
-	}
-
-    @Override
-	public void empty() {
-
-		//root is the first in topological sort.
-		DecompositionGraph.Vertex rt = decompGraph.iterator().next();
-
-		this.root = new InstanceNode(rt.getName());
-	}
-
+            } catch (IOException e) {
+                // ignore
+            }
+        }
+    }
 
     @Override
-	public void insert(List<String> colValues) throws SemanticError {
+    public void empty() {
 
-		if (colValues.size() != this.columns.size()) {
-			throw new SemanticError("Wrong number of columns in 'insert' operation.");
-		}
+        //root is the first in topological sort.
+        DecompositionGraph.Vertex rt = decompGraph.iterator().next();
 
-		List<InstanceNode> left = new ArrayList<InstanceNode>();
-		left.add(this.root);
+        this.root = new InstanceNode(rt.getName());
+    }
 
-        for (DecompositionGraph.Vertex v : this.decompGraph) {
+
+
+    /**
+     * Inserts given tuple.
+     *
+     * @param colValues the tuple to insert
+     *
+     * @throws SemanticError on different semantic errors (wrong col. names etc.)
+     */
+    public void insert(List<String> colValues) throws SemanticError {
+
+        //semantic checks.
+        nullRoot();  //throws exception iff root is null.
+
+        List<String> colNames = ToolBox.getColNamesOfTuple(colValues);
+        Collections.sort(colNames);
+        Collections.sort(this.columns);
+
+        if (!colNames.equals(columns)) {
+            throw new SemanticError("Wrong number of columns or wrong columns names in 'insert' operation.");
+        }
+
+        List<String> keyValuesOfTuple = ToolBox.neededColValues(funcDomainCols, colValues);
+
+        if (!query(keyValuesOfTuple, funcImageCols).isEmpty()) {
+            System.out.println("Insertion wasn't done - tuple with same key-columns values already exists.");
+            return;
+        }
+
+        ////////////////////////////////////////
+
+        List<InstanceNode> nodes = new ArrayList<InstanceNode>();  //aggregates nodes we handle.
+        nodes.add(this.root);
+
+        Iterator<DecompositionGraph.Vertex> itr = this.decompGraph.iterator();
+
+        while(itr.hasNext()) {  //iterating in topo. order.
 
             //next vertex in top. order.
-            InstanceNode curr = null;
-            curr = getInstanceNodeByName(left, v.getName());  //curr. node instance (in top. order).
+            DecompositionGraph.Vertex v = itr.next();
+
+            InstanceNode curr = getInstanceNodeByName(nodes, v.getName());  //curr. node instance (in top. order).
+
             if (v.isSinkVertex()) {
+
                 List<String> sinkColVals = ToolBox.neededColValues(v.getSinkColsNames(), colValues);
                 curr.addSinkNodeValues(sinkColVals);
                 continue;
@@ -115,94 +145,194 @@ public class CompilerOutputCore implements DataProvider {
 
             //not sink vertex.
             for (DecompositionGraph.Edge e : v.getAdjList()) {
+
                 List<String> mapKeyColumns = ToolBox.neededColValues(e.getCols(), colValues);
-                InstanceNode node = getInstanceNodeByName(left, e.getDestVertName());
-                if (node != null) {  //we have already a copy of this node.
+
+                InstanceNode node = getInstanceNodeByName(nodes, e.getDestVertName());
+
+                if (node != null) {  //we have already a copy of this node in left list.
+
                     curr.addAdjacent(e.getDestVertName(), mapKeyColumns, e.getPrimitiveDS(), node);
+
                 } else {
-                    InstanceNode tmp = curr.addAdjacent(e.getDestVertName(), mapKeyColumns, e.getPrimitiveDS(), null);
-                    left.add(tmp);
+
+                    InstanceNode added = curr.addAdjacent(e.getDestVertName(), mapKeyColumns, e.getPrimitiveDS(), null);
+                    nodes.add(added);
                 }
 
+            } //end of for.
+
+        } //end of while.
+    }
+
+
+    /**
+     *
+     * Gets a matching tuple and output columns names, an searches for tuples that match the input.
+     *
+     * @param theQuery the tuple to match
+     * @param outputColNames the columns to output in found matching tuples
+     *
+     * @return list of matching tuples, with requested columns
+     *
+     * @throws SemanticError on different semantic errors (wrong col. names etc.)
+     */
+    public List<List<String>> query(List<String> theQuery, List<String> outputColNames) throws SemanticError {
+
+        //semantic checks.
+        nullRoot();  //throws exception iff root is null.
+
+        if (theQuery.isEmpty() || outputColNames.isEmpty()) {
+            throw new SemanticError("Query matching tuple or output columns names can't be empty.");
+        }
+
+        if (!ToolBox.isSubSet(ToolBox.getColNamesOfTuple(theQuery), columns) ||
+                !ToolBox.isSubSet(outputColNames, columns)) {
+
+            throw new SemanticError("Wrong columns names in 'query' operation.");
+        }
+
+        ////////////////////////////////////////
+
+        //all matching tuples, but maybe with more output columns than requested.
+        List<List<String>> tmp = this.root.queryNode(theQuery);
+
+        List<List<String>> ret = new ArrayList<List<String>>();
+
+        for (List<String> tup : tmp) {  //leaving just the requested output columns.
+
+            List<String> res = ToolBox.neededColValues(outputColNames, tup);
+
+            Collections.sort(res);
+
+            ret.add(res);
+        }
+
+        return ret;
+    }
+
+
+    /**
+     * Removes all tuples that match a given matching tuple.
+     *
+     * @param tuple the matching tuple
+     *
+     * @throws SemanticError on different semantic errors (wrong col. names etc.)
+     */
+    public void remove(List<String> tuple) throws SemanticError {
+
+        //semantic checks.
+        nullRoot();  //throws exception iff root is null.
+
+        if (tuple.isEmpty()) {
+            throw new SemanticError("Remove matching tuple can't be empty.");
+        }
+
+        if (!ToolBox.isSubSet(ToolBox.getColNamesOfTuple(tuple), columns)) {
+
+            throw new SemanticError("Wrong columns names in 'remove' operation.");
+        }
+
+        ////////////////////////////////////////
+
+        List<String> colsToRemove = ToolBox.getColNamesOfTuple(tuple);
+
+        List<DecompositionGraph.Vertex> vertices = new ArrayList<DecompositionGraph.Vertex>();
+
+        for (DecompositionGraph.Vertex v : this.decompGraph) {  //calculating the removal cut.
+
+            boolean aboveCut = false;
+
+            if (!ToolBox.isSubSet(colsToRemove, v.getBoundCols())) {
+
+                aboveCut = true;
+            }
+
+            v.setAboveCut(aboveCut);
+
+            vertices.add(v);
+        }
+
+        this.root.removeNode(tuple, vertices);  //removal from the root (root is always above cut).
+    }
+
+
+
+    /**
+     * Updates non-key columns values for a tuple, which key-columns values are given (if exists)
+     *
+     * @param matchingTuple the key columns to match
+     * @param updateValues the updating values (non-key-columns)
+     *
+     * @throws SemanticError on different semantic errors (wrong col. names etc.)
+     */
+    public void update(List<String> matchingTuple, List<String> updateValues) throws SemanticError {
+
+        //semantic checks.
+        nullRoot();  //throws exception iff root is null.
+
+        List<String> matchTupColNames = ToolBox.getColNamesOfTuple(matchingTuple);
+        List<String> valsColNames = ToolBox.getColNamesOfTuple(updateValues);
+
+        Collections.sort(matchTupColNames);
+        Collections.sort(this.funcDomainCols);
+
+        if (!matchTupColNames.equals(this.funcDomainCols)) {
+            throw new SemanticError("Matching columns in update must be the key columns of the relation.");
+        }
+
+        if (!ToolBox.isSubSet(valsColNames, this.funcImageCols)) {
+            throw new SemanticError("Updating columns in update should be a sub-set of non-key columns.");
+        }
+
+        if (valsColNames.isEmpty()) {
+            throw new SemanticError("Updating tuple can't be empty.");
+        }
+
+        ////////////////////////////////////////
+
+        List<List<String>> toFind = query(matchingTuple, funcImageCols); //we request as the result img. columns.
+
+        remove(matchingTuple);
+
+        for (List<String> t : toFind) { //inserting updated tuple.
+
+            ToolBox.updateTuple(t, updateValues);
+            insert(ToolBox.setsUnion(matchingTuple, t));
+        }
+    }
+
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+
+        return this.root.toString();
+    }
+
+
+    //returns InstanceNode object by given node's name, or null if not found.
+    private InstanceNode getInstanceNodeByName(List<InstanceNode> lst, String nameToFind) {
+
+        for (InstanceNode el : lst) {
+
+            if (el.getName().equals(nameToFind)) {
+                return el;
             }
         }
 
-	}
+        return null;
+    }
 
 
-    @Override
-	public List<List<String>> query(List<String> theQuery, List<String> outputColNames) {
+    /* throws an exception iff root is null (otherwise does nothing),
+       for semantic checks in different operations. */
+    private void nullRoot() throws SemanticError {
 
-		List<List<String>> tmp = this.root.queryNode(theQuery);
-		List<List<String>> ret = new ArrayList<List<String>>();
-		for (List<String> tup : tmp) {
-			List<String> res = ToolBox.neededColValues(outputColNames, tup);
-			Collections.sort(res);
-			ret.add(res);
-		}
-
-		return ret;
-	}
-
-    @Override
-	public void remove(List<String> tuple) {
-
-		List<String> colsToRemove = ToolBox.getColNamesOfTuple(tuple);
-		List<DecompositionGraph.Vertex> vertices = new ArrayList<DecompositionGraph.Vertex>();
-
-		for (DecompositionGraph.Vertex v : this.decompGraph) {
-			boolean aboveCut = false;
-			if (!ToolBox.isSubSet(colsToRemove, v.getBoundCols())) {
-				aboveCut = true;
-			}
-			v.setAboveCut(aboveCut);
-			vertices.add(v);
-		}
-		this.root.removeNode(tuple, vertices);  //root is always above cut.
-	}
-
-    @Override
-	public void update(List<String> matchingTuple, List<String> updateValues) throws SemanticError {
-
-		List<String> matchTupColNames = ToolBox.getColNamesOfTuple(matchingTuple);
-		List<String> valsColNames = ToolBox.getColNamesOfTuple(updateValues);
-
-		Collections.sort(matchTupColNames);
-		Collections.sort(this.funcDomainCols);
-
-		if (!matchTupColNames.equals(this.funcDomainCols)) {
-			throw new SemanticError("Matching columns in update must be the key columns of the relation.");
-		}
-
-		if (!ToolBox.isSubSet(valsColNames, this.funcImageCols)) {
-			throw new SemanticError("Updating columns in update should not include key columns.");
-		}
-
-        List<List<String>> toFind = query(matchingTuple, funcImageCols); // we request as the result img. columns.
-        remove(matchingTuple);
-
-        for (List<String> t : toFind) {
-				ToolBox.updateTuple(t, updateValues);
-				List<String> toInsert = ToolBox.setsUnion(matchingTuple, t);
-				insert(toInsert);
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return this.root.toString();
-	}
-
-
-	private InstanceNode getInstanceNodeByName(List<InstanceNode> lst, String nameToFind) {
-		for (InstanceNode el : lst) {
-			if (el.getName().equals(nameToFind)) {
-				return el;
-			}
-		}
-		return null;
-	}
+        if (this.root == null) {
+            throw new SemanticError("No operation can be done until empty() is called.");
+        }
+    }
 }

@@ -43,7 +43,7 @@ public interface DataProvider {
      * @return A list of tuples with the requested results.
      */
     List<List<String>> query(final List<String> query,
-                             final List<String> resultColumns);
+                             final List<String> resultColumns) throws SemanticError;
 
     /**
      * Removes all tuples matching the given tuple from the provider.
@@ -55,7 +55,7 @@ public interface DataProvider {
      *              'my-author'
      *
      */
-    void remove(final List<String> tuple);
+    void remove(final List<String> tuple) throws SemanticError;
 
     /**
      * Updates all tuples matching the matchingTuple with updates specified in updateValues.<br>

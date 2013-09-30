@@ -22,10 +22,12 @@ public class DecompositionGraph implements Iterable<DecompositionGraph.Vertex>, 
 
 	private List<Vertex> vertices;
 	private boolean topSorted;
+    private boolean cycleInGraph;   //for semantic checks.
 
 	public DecompositionGraph() {
 		this.vertices = new ArrayList<>();
 		this.topSorted = false;
+        this.cycleInGraph = false;
 	}
 
 	public void addVertex(Vertex v) {
@@ -62,6 +64,9 @@ public class DecompositionGraph implements Iterable<DecompositionGraph.Vertex>, 
 			topologicalSort();
 			topSorted = true;
 		}
+        if (this.cycleInGraph) {  //graph isn't DAG - no topo. order - return null.
+            return null;
+        }
 		return vertices.iterator();
 	}
 
@@ -103,6 +108,10 @@ public class DecompositionGraph implements Iterable<DecompositionGraph.Vertex>, 
 			if (dest.getColor().equals("WHITE")) {
 				DFSVisit(dest, topsortList);
 			}
+            if (dest.getColor().equals("GRAY")) {  //back edge - not SAG.
+                this.cycleInGraph = true;
+                return;
+            }
 		}
 		v.setColor("BLACK");
 		topsortList.add(0, v);  //building the topo. order list.

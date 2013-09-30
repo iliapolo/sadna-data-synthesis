@@ -27,8 +27,8 @@ public class InstanceNode {
 	private String name;
 	
 	// maps an adjacent vertex (by its name from decomposition graph) to its mapping ds of the decomp. instance.
-	// for example: we have an edge from x to y (in decomp. graph), with column ns and htable,
-	// then in map of InstanceNode object of x, key y will be mapped to htable (with ns as a key).
+	// for example: if we have an edge from x to y (in decomp. graph), with column ns and ds htable,
+    // then in adjacent map of InstanceNode object of x, key y will be mapped to htable (with ns as a key).
 	private Map<String, KeyValueDataStructure<List<String>,InstanceNode>> adjacent;
 	
 	// list of values of columns for sink node.
@@ -62,7 +62,7 @@ public class InstanceNode {
 
 	
 	/**
-	 * 
+	 * Inserts a new mapping to one of the mapping data structures of this node.
 	 * 
 	 * @param adjNodeName name of the adj. node
 	 * @param mapKeyColumns key for mapping to adj. node
@@ -139,7 +139,7 @@ public class InstanceNode {
 		}
 	}
 
-	
+    //the scan method, used by removeNode, to scan over keys of a ds.
 	private void removalScan(List<String> remTuple, List<DecompositionGraph.Vertex> decompVert,
 									KeyValueDataStructure<List<String>,InstanceNode> ds, boolean isAboveCut) {
 			
@@ -162,8 +162,10 @@ public class InstanceNode {
             ds.remove(k);
         }
 	}
-	
-	
+
+    /* returns true iff node with given name is above removal cut, previously calculated,
+       and represented in given list of vertices.
+    */
 	private boolean isNodeAboveCut(String name, List<DecompositionGraph.Vertex> decompVert) {
 		for (DecompositionGraph.Vertex v : decompVert) {
 			if (name.equals(v.getName()) && v.isAboveCut()) {
@@ -172,8 +174,8 @@ public class InstanceNode {
 		}
 		return false;
 	}
-	
-	
+
+    //the unit query operator - for query in sink node.
 	private List<List<String>> qunit(List<String> theQuery) {
 		List<List<String>> ret = new ArrayList<>();
 		if (ToolBox.tuplesMatch(sinkNodeValues, theQuery)) {
@@ -181,8 +183,8 @@ public class InstanceNode {
 		}
 		return ret;
 	}
-	
-	
+
+    //the scan query operator - for scan over a ds.
 	private List<List<String>> qscan(List<String> theQuery, 
                                      KeyValueDataStructure<List<String>,InstanceNode> mapToScan) {
 		
@@ -227,6 +229,7 @@ public class InstanceNode {
 		return ret;
 	}
 
+    //the lookup query operator - for lookup for a key in a ds.
 	private List<List<String>> qlookup(List<String> theQuery, List<String> lookupKey, 
                                        KeyValueDataStructure<List<String>,InstanceNode> mapToLook) {
 
@@ -247,12 +250,13 @@ public class InstanceNode {
         }
 		return tmp;
 	}
-	
-	private List<List<String>> qjoin(List<String> theQuery) {
+
+    //the join query operator - which joins query results of diff. adj. nodes of this node.
+    private List<List<String>> qjoin(List<String> theQuery) {
 		
 		List<List<String>> ret = new ArrayList<>();
 
-        for (String s : this.adjacent.keySet()) {
+        for (String s : this.adjacent.keySet()) {  //go over all adj. nodes of this node.
             ret = ToolBox.naturalJoin(ret, qscan(theQuery, this.adjacent.get(s)));
         }
 		return ret;
